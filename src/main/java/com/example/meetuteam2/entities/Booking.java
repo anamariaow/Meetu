@@ -20,11 +20,11 @@ public class Booking {
     @Column (nullable = false)
     private String typeExperience;
 
-      //  @ManyToOne(fetch = FetchType.LAZY)
-      //    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-     // @ManyToOne(fetch = FetchType.LAZY)
-     // private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
 
     public Booking(long id, String name, String description, Double price, String typeExperience) {

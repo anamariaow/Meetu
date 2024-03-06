@@ -17,8 +17,8 @@ public class Meets {
     @Column(nullable = false)
     private LocalDateTime releaseDate;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    private User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
 
 
     public Meets(Long id, Integer quantity, LocalDateTime releaseDate) {
