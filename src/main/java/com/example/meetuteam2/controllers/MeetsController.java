@@ -1,7 +1,7 @@
 package com.example.meetuteam2.controllers;
 
 import com.example.meetuteam2.entities.Meets;
-import com.example.meetuteam2.servicies.MeetsService;
+import com.example.meetuteam2.services.MeetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

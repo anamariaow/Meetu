@@ -1,4 +1,4 @@
-package com.example.meetuteam2.servicies;
+package com.example.meetuteam2.services;
 
 import com.example.meetuteam2.entities.Booking;
 import com.example.meetuteam2.repositories.BookingRepository;

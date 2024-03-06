@@ -1,8 +1,6 @@
-package com.example.meetuteam2.servicies;
+package com.example.meetuteam2.services;
 
-import com.example.meetuteam2.entities.Meets;
 import com.example.meetuteam2.entities.User;
-import com.example.meetuteam2.repositories.MeetsRepository;
 import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 

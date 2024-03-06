@@ -1,10 +1,7 @@
 package com.example.meetuteam2.controllers;
 
 import com.example.meetuteam2.entities.Booking;
-import com.example.meetuteam2.entities.Meets;
-import com.example.meetuteam2.servicies.BookingService;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.example.meetuteam2.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
