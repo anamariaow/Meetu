@@ -19,19 +19,19 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = true)
     private String moreInfo;
 
-    @Column
+    @Column(nullable = true)
     private String interestList;
 
     @Column(nullable = false)
     private String genderEnum;
 
-    @Column
+    @Column(nullable = true)
     private String zodiacSignEnum;
 
-    @Column
+    @Column(nullable = true)
     private String orientationEnum;
 
     // @ManyToMany(fetch = FetchType.LAZY)
@@ -46,9 +46,6 @@ public class User {
         this.genderEnum = genderEnum;
         this.zodiacSignEnum = zodiacSignEnum;
         this.orientationEnum = orientationEnum;
-    }
-
-    public User() {
     }
 
     public Long getId() {
