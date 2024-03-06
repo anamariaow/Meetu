@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Table
+@Entity
 public class Meets {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
