@@ -3,7 +3,6 @@ package com.example.meetuteam2.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Table
 @Entity
@@ -11,12 +10,8 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
     private Double grade;
-
     private String text;
-
-    @Column(nullable = false)
     private LocalDate dateOfReview;
 
     public Review(Long id, Double grade, String text, LocalDate dateOfReview) {

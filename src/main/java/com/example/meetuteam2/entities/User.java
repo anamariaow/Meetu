@@ -35,7 +35,7 @@ public class User {
     private String orientationEnum;
 
      @ManyToMany(fetch = FetchType.LAZY)
-     private Experience experience;
+     private List<Experience> experience;
     public User(Long id, String name, String email, String password, String moreInfo, String interestList, String genderEnum, String zodiacSignEnum, String orientationEnum) {
         this.id = id;
         this.name = name;

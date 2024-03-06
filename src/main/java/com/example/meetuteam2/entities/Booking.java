@@ -23,6 +23,7 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+
     public Booking(long id, String name, String description, Double price, String typeExperience) {
         this.id = id;
         this.name = name;
