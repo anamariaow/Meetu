@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/team2
+    url: jdbc:mysql://localhost:3306/meetu
     username: team2
     password: team2
     driver-class-name: com.mysql.cj.jdbc.Driver
