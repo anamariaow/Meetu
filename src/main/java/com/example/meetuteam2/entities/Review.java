@@ -10,11 +10,17 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private Double grade;
+    @Column
     private String text;
+    @Column
     private LocalDate dateOfReview;
     @Column(nullable = false)
     private LogicalDeletionEnum reviewDeletion;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     public Review(Long id, Double grade, String text, LocalDate dateOfReview, LogicalDeletionEnum reviewDeletion) {
         this.id = id;
