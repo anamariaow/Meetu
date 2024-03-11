@@ -34,9 +34,12 @@ public class User {
     @Column(nullable = true)
     private String orientationEnum;
 
-     @ManyToMany(fetch = FetchType.LAZY)
-     private List<Experience> experience;
-    public User(Long id, String name, String email, String password, String moreInfo, String interestList, String genderEnum, String zodiacSignEnum, String orientationEnum) {
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Experience> experience;
+    @ManyToOne
+    private List<Review> reviewList;
+
+    public User(Long id, String name, String email, String password, String moreInfo, String interestList, String genderEnum, String zodiacSignEnum, String orientationEnum, List<Experience> experience, List<Review> reviewList) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -46,6 +49,11 @@ public class User {
         this.genderEnum = genderEnum;
         this.zodiacSignEnum = zodiacSignEnum;
         this.orientationEnum = orientationEnum;
+        this.experience = experience;
+        this.reviewList = reviewList;
+    }
+
+    public User() {
     }
 
     public Long getId() {
@@ -118,5 +126,21 @@ public class User {
 
     public void setOrientationEnum(String orientationEnum) {
         this.orientationEnum = orientationEnum;
+    }
+
+    public List<Experience> getExperience() {
+        return experience;
+    }
+
+    public void setExperience(List<Experience> experience) {
+        this.experience = experience;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 }
