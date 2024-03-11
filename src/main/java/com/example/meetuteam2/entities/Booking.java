@@ -21,14 +21,17 @@ public class Booking {
     private String typeExperience;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "experience_id")
     private Experience experience;
 
     @Column(nullable = false)
     private LogicalDeletionEnum recordStatus;
 
-    public Booking(long id, String name, String description, Double price, String typeExperience, User user, Experience experience, LogicalDeletionEnum recordStatus) {
+    public Booking(Long id, String name, String description, Double price, String typeExperience,
+                   User user, Experience experience, LogicalDeletionEnum bookingDeletion) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -42,11 +45,11 @@ public class Booking {
     public Booking() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
