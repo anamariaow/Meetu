@@ -25,8 +25,10 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY)
     private Experience experience;
 
+    @Column(nullable = false)
+    private LogicalDeletionEnum bookingDeletion;
 
-    public Booking(long id, String name, String description, Double price, String typeExperience, User user, Experience experience) {
+    public Booking(long id, String name, String description, Double price, String typeExperience, User user, Experience experience, LogicalDeletionEnum bookingDeletion) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -34,6 +36,7 @@ public class Booking {
         this.typeExperience = typeExperience;
         this.user = user;
         this.experience = experience;
+        this.bookingDeletion = bookingDeletion;
     }
 
     public Booking() {
@@ -93,5 +96,13 @@ public class Booking {
 
     public void setExperience(Experience experience) {
         this.experience = experience;
+    }
+
+    public LogicalDeletionEnum getBookingDeletion() {
+        return bookingDeletion;
+    }
+
+    public void setBookingDeletion(LogicalDeletionEnum bookingDeletion) {
+        this.bookingDeletion = bookingDeletion;
     }
 }

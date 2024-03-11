@@ -36,7 +36,11 @@ public class User {
 
      @ManyToMany(fetch = FetchType.LAZY)
      private List<Experience> experience;
-    public User(Long id, String name, String email, String password, String moreInfo, String interestList, String genderEnum, String zodiacSignEnum, String orientationEnum) {
+
+    @Column(nullable = false)
+    private LogicalDeletionEnum userDeletion;
+
+    public User(Long id, String name, String email, String password, String moreInfo, String interestList, String genderEnum, String zodiacSignEnum, String orientationEnum, List<Experience> experience, LogicalDeletionEnum userDeletion) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -46,6 +50,11 @@ public class User {
         this.genderEnum = genderEnum;
         this.zodiacSignEnum = zodiacSignEnum;
         this.orientationEnum = orientationEnum;
+        this.experience = experience;
+        this.userDeletion = userDeletion;
+    }
+
+    public User() {
     }
 
     public Long getId() {
@@ -118,5 +127,21 @@ public class User {
 
     public void setOrientationEnum(String orientationEnum) {
         this.orientationEnum = orientationEnum;
+    }
+
+    public List<Experience> getExperience() {
+        return experience;
+    }
+
+    public void setExperience(List<Experience> experience) {
+        this.experience = experience;
+    }
+
+    public LogicalDeletionEnum getMeetsDeletion() {
+        return userDeletion;
+    }
+
+    public void setMeetsDeletion(LogicalDeletionEnum meetsDeletion) {
+        this.userDeletion = meetsDeletion;
     }
 }

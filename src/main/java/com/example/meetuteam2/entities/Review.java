@@ -13,12 +13,15 @@ public class Review {
     private Double grade;
     private String text;
     private LocalDate dateOfReview;
+    @Column(nullable = false)
+    private LogicalDeletionEnum reviewDeletion;
 
-    public Review(Long id, Double grade, String text, LocalDate dateOfReview) {
+    public Review(Long id, Double grade, String text, LocalDate dateOfReview, LogicalDeletionEnum reviewDeletion) {
         this.id = id;
         this.grade = grade;
         this.text = text;
         this.dateOfReview = dateOfReview;
+        this.reviewDeletion = reviewDeletion;
     }
 
     public Review() {
@@ -54,5 +57,13 @@ public class Review {
 
     public void setDateOfReview(LocalDate dateOfReview) {
         this.dateOfReview = dateOfReview;
+    }
+
+    public LogicalDeletionEnum getReviewDeletion() {
+        return reviewDeletion;
+    }
+
+    public void setReviewDeletion(LogicalDeletionEnum reviewDeletion) {
+        this.reviewDeletion = reviewDeletion;
     }
 }

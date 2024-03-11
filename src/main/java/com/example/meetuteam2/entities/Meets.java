@@ -20,11 +20,15 @@ public class Meets {
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Column(nullable = false)
+    private LogicalDeletionEnum meetsDeletion;
 
-    public Meets(Long id, Integer quantity, LocalDateTime releaseDate) {
+    public Meets(Long id, Integer quantity, LocalDateTime releaseDate, User user, LogicalDeletionEnum meetsDeletion) {
         this.id = id;
         this.quantity = quantity;
         this.releaseDate = releaseDate;
+        this.user = user;
+        this.meetsDeletion = meetsDeletion;
     }
 
     public Meets() {
@@ -52,5 +56,21 @@ public class Meets {
 
     public void setReleaseDate(LocalDateTime releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public LogicalDeletionEnum getMeetsDeletion() {
+        return meetsDeletion;
+    }
+
+    public void setMeetsDeletion(LogicalDeletionEnum meetsDeletion) {
+        this.meetsDeletion = meetsDeletion;
     }
 }

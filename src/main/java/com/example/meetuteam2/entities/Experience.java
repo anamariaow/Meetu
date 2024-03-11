@@ -27,7 +27,10 @@ public class Experience {
     @Column(nullable = false)
     private Integer idUserFK;
 
-    public Experience(Long id, String name, String description, Double price, String typeExperience, Integer experienceValue, Integer idUserFK) {
+    @Column(nullable = false)
+    private LogicalDeletionEnum experienceDeletion;
+
+    public Experience(Long id, String name, String description, Double price, String typeExperience, Integer experienceValue, Integer idUserFK, LogicalDeletionEnum experienceDeletion) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -35,6 +38,10 @@ public class Experience {
         this.typeExperience = typeExperience;
         this.experienceValue = experienceValue;
         this.idUserFK = idUserFK;
+        this.experienceDeletion = experienceDeletion;
+    }
+
+    public Experience() {
     }
 
     public Long getId() {
@@ -91,5 +98,13 @@ public class Experience {
 
     public void setIdUserFK(Integer idUserFK) {
         this.idUserFK = idUserFK;
+    }
+
+    public LogicalDeletionEnum getExperienceDeletion() {
+        return experienceDeletion;
+    }
+
+    public void setExperienceDeletion(LogicalDeletionEnum experienceDeletion) {
+        this.experienceDeletion = experienceDeletion;
     }
 }
