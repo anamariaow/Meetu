@@ -22,14 +22,18 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Experience experience;
 
 
-    public Booking(long id, String name, String description, Double price, String typeExperience) {
+    public Booking(long id, String name, String description, Double price, String typeExperience, User user, Experience experience) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.typeExperience = typeExperience;
+        this.user = user;
+        this.experience = experience;
     }
 
     public Booking() {
@@ -73,5 +77,21 @@ public class Booking {
 
     public void setTypeExperience(String typeExperience) {
         this.typeExperience = typeExperience;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Experience getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Experience experience) {
+        this.experience = experience;
     }
 }
