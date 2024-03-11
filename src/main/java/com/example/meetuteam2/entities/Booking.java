@@ -26,9 +26,9 @@ public class Booking {
     private Experience experience;
 
     @Column(nullable = false)
-    private LogicalDeletionEnum bookingDeletion;
+    private LogicalDeletionEnum recordStatus;
 
-    public Booking(long id, String name, String description, Double price, String typeExperience, User user, Experience experience, LogicalDeletionEnum bookingDeletion) {
+    public Booking(long id, String name, String description, Double price, String typeExperience, User user, Experience experience, LogicalDeletionEnum recordStatus) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,7 +36,7 @@ public class Booking {
         this.typeExperience = typeExperience;
         this.user = user;
         this.experience = experience;
-        this.bookingDeletion = bookingDeletion;
+        this.recordStatus = recordStatus;
     }
 
     public Booking() {
@@ -98,11 +98,11 @@ public class Booking {
         this.experience = experience;
     }
 
-    public LogicalDeletionEnum getBookingDeletion() {
-        return bookingDeletion;
+    public LogicalDeletionEnum getRecordStatus() {
+        return recordStatus;
     }
 
-    public void setBookingDeletion(LogicalDeletionEnum bookingDeletion) {
-        this.bookingDeletion = bookingDeletion;
+    public void setRecordStatus(LogicalDeletionEnum recordStatus) {
+        this.recordStatus = recordStatus;
     }
 }

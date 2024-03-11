@@ -21,14 +21,14 @@ public class Meets {
     private User user;
 
     @Column(nullable = false)
-    private LogicalDeletionEnum meetsDeletion;
+    private LogicalDeletionEnum recordStatus;
 
-    public Meets(Long id, Integer quantity, LocalDateTime releaseDate, User user, LogicalDeletionEnum meetsDeletion) {
+    public Meets(Long id, Integer quantity, LocalDateTime releaseDate, User user, LogicalDeletionEnum recordStatus) {
         this.id = id;
         this.quantity = quantity;
         this.releaseDate = releaseDate;
         this.user = user;
-        this.meetsDeletion = meetsDeletion;
+        this.recordStatus = recordStatus;
     }
 
     public Meets() {
@@ -66,11 +66,11 @@ public class Meets {
         this.user = user;
     }
 
-    public LogicalDeletionEnum getMeetsDeletion() {
-        return meetsDeletion;
+    public LogicalDeletionEnum getRecordStatus() {
+        return recordStatus;
     }
 
-    public void setMeetsDeletion(LogicalDeletionEnum meetsDeletion) {
-        this.meetsDeletion = meetsDeletion;
+    public void setRecordStatus(LogicalDeletionEnum recordStatus) {
+        this.recordStatus = recordStatus;
     }
 }

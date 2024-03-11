@@ -17,17 +17,17 @@ public class Review {
     @Column
     private LocalDate dateOfReview;
     @Column(nullable = false)
-    private LogicalDeletionEnum reviewDeletion;
+    private LogicalDeletionEnum recordStatus;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
 
-    public Review(Long id, Double grade, String text, LocalDate dateOfReview, LogicalDeletionEnum reviewDeletion) {
+    public Review(Long id, Double grade, String text, LocalDate dateOfReview, LogicalDeletionEnum recordStatus) {
         this.id = id;
         this.grade = grade;
         this.text = text;
         this.dateOfReview = dateOfReview;
-        this.reviewDeletion = reviewDeletion;
+        this.recordStatus = recordStatus;
     }
 
     public Review() {
@@ -65,11 +65,11 @@ public class Review {
         this.dateOfReview = dateOfReview;
     }
 
-    public LogicalDeletionEnum getReviewDeletion() {
-        return reviewDeletion;
+    public LogicalDeletionEnum getRecordStatus() {
+        return recordStatus;
     }
 
-    public void setReviewDeletion(LogicalDeletionEnum reviewDeletion) {
-        this.reviewDeletion = reviewDeletion;
+    public void setRecordStatus(LogicalDeletionEnum recordStatus) {
+        this.recordStatus = recordStatus;
     }
 }
