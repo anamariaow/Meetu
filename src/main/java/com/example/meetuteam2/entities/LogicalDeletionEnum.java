@@ -1,8 +1,8 @@
 package com.example.meetuteam2.entities;
 
 public enum LogicalDeletionEnum {
-    ATTIVO("attivato","A"),
-    DISATTIVATO("disattivato","D");
+    ATTIVO("attivato","1"),
+    DISATTIVATO("disattivato","0");
 
     private String descrizione;
     private String value;
