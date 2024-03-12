@@ -35,7 +35,7 @@ public class User {
     private String orientationEnum;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "experiences", joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "experience_id"))
     private List<Experience> experience;
 
