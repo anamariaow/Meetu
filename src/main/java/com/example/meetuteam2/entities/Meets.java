@@ -3,6 +3,7 @@ package com.example.meetuteam2.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Table
 @Entity
@@ -18,6 +19,7 @@ public class Meets {
     private LocalDateTime releaseDate;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_meets")
     private User user;
 
     @Column(nullable = false)
