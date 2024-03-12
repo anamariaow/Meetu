@@ -3,7 +3,6 @@ package com.example.meetuteam2.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Table
 @Entity
@@ -18,12 +17,12 @@ public class Review {
     @Column
     private LocalDate dateOfReview;
     @Column(nullable = false)
-    private LogicalDeletionEnum recordStatus;
+    private RecordStatusEnum recordStatus;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
-    public Review(Long id, Double grade, String text, LocalDate dateOfReview, LogicalDeletionEnum recordStatus, User user) {
+    public Review(Long id, Double grade, String text, LocalDate dateOfReview, RecordStatusEnum recordStatus, User user) {
         this.id = id;
         this.grade = grade;
         this.text = text;
@@ -75,11 +74,11 @@ public class Review {
         this.user = user;
     }
 
-    public LogicalDeletionEnum getRecordStatus() {
+    public RecordStatusEnum getRecordStatus() {
         return recordStatus;
     }
 
-    public void setRecordStatus(LogicalDeletionEnum recordStatus) {
+    public void setRecordStatus(RecordStatusEnum recordStatus) {
         this.recordStatus = recordStatus;
     }
 }

@@ -2,6 +2,8 @@ package com.example.meetuteam2.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table
 public class Experience {
@@ -28,10 +30,16 @@ public class Experience {
     private Integer idUserFK;
 
     @Column(nullable = false)
-    private LogicalDeletionEnum recordStatus;
+    private RecordStatusEnum recordStatus;
+
+    @ManyToMany(mappedBy = "experienceList")
+    private List<User> user;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Booking> booking;
 
     public Experience(Long id, String name, String description, Double price, String typeExperience, Integer experienceValue,
-                      Integer idUserFK, LogicalDeletionEnum recordStatus) {
+                      Integer idUserFK, RecordStatusEnum recordStatus, List<User> user, List<Booking> booking) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -40,6 +48,8 @@ public class Experience {
         this.experienceValue = experienceValue;
         this.idUserFK = idUserFK;
         this.recordStatus = recordStatus;
+        this.user = user;
+        this.booking = booking;
     }
 
     public Experience() {
@@ -101,11 +111,27 @@ public class Experience {
         this.idUserFK = idUserFK;
     }
 
-    public LogicalDeletionEnum getRecordStatus() {
+    public RecordStatusEnum getRecordStatus() {
         return recordStatus;
     }
 
-    public void setRecordStatus(LogicalDeletionEnum recordStatus) {
+    public void setRecordStatus(RecordStatusEnum recordStatus) {
         this.recordStatus = recordStatus;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+
+    public List<Booking> getBooking() {
+        return booking;
+    }
+
+    public void setBooking(List<Booking> booking) {
+        this.booking = booking;
     }
 }

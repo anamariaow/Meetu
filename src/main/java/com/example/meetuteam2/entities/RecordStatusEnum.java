@@ -1,13 +1,13 @@
 package com.example.meetuteam2.entities;
 
-public enum LogicalDeletionEnum {
+public enum RecordStatusEnum {
     ATTIVO("attivato","1"),
     DISATTIVATO("disattivato","0");
 
     private String descrizione;
     private String value;
 
-    LogicalDeletionEnum(String descrizione,String value) {
+    RecordStatusEnum(String descrizione, String value) {
         this.descrizione = descrizione;
         this.value = value;
     }
