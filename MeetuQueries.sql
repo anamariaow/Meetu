@@ -11,6 +11,12 @@ CREATE TABLE user (
   zodiac_sign_enum varchar(255) DEFAULT NULL,
   CONSTRAINT user_experience FOREIGN KEY (experience_id)
     REFERENCES Experience(experience_id),
+  CONSTRAINT user_review FOREIGN KEY (review_id)
+      REFERENCES Review(review_id),
+  CONSTRAINT user_meets FOREIGN KEY (meets_id)
+      REFERENCES Meets(meets_id),
+  CONSTRAINT user_booking FOREIGN KEY (booking_id)
+      REFERENCES Booking(booking_id),
   CONSTRAINT user_chk_1 CHECK ((record_status between 0 and 1))
 );
 CREATE TABLE meets (
@@ -28,6 +34,8 @@ CREATE TABLE review (
   record_status tinyint NOT NULL,
   user_id bigint DEFAULT NULL,
   text varchar(255) DEFAULT NULL,
+  CONSTRAINT user_review FOREIGN KEY (review_id)
+        REFERENCES Review(review_id),
   CONSTRAINT review_chk_1 CHECK ((record_status between 0 and 1))
 );
 CREATE TABLE booking (
@@ -39,6 +47,10 @@ CREATE TABLE booking (
   description varchar(255) NOT NULL,
   name varchar(255) NOT NULL,
   type_experience varchar(255) NOT NULL,
+  CONSTRAINT user_booking FOREIGN KEY (user_id)
+        REFERENCES User(user_id),
+  CONSTRAINT experience_booking FOREIGN KEY (experience_id)
+        REFERENCES Experience(experience_id),
   CONSTRAINT booking_chk_1 CHECK ((record_status between 0 and 1))
 );
 CREATE TABLE experience (
@@ -50,5 +62,39 @@ CREATE TABLE experience (
   description varchar(255) NOT NULL,
   name varchar(255) NOT NULL,
   type_experience varchar(255) NOT NULL,
+  CONSTRAINT user_review FOREIGN KEY (user_id)
+          REFERENCES User(user_id),
+  CONSTRAINT experience_booking FOREIGN KEY (booking_id)
+          REFERENCES Booking(booking_id),
   CONSTRAINT experience_chk_1 CHECK ((record_status between 0 and 1))
+);
+
+ALTER TABLE user
+ADD CONSTRAINT user_meets
+FOREIGN KEY (id)
+REFERENCES meets(id);
+
+CREATE TABLE experience_booking (
+  booking_id bigint NOT NULL UNIQUE KEY,
+  experience_id bigint NOT NULL ,
+  FOREIGN KEY (booking_id) REFERENCES booking (id),
+  FOREIGN KEY (experience_id) REFERENCES experience (id)
+);
+CREATE TABLE user_booking_list (
+  booking_list_id bigint NOT NULL UNIQUE KEY,
+  user_id bigint NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (booking_list_id) REFERENCES booking (id)
+);
+CREATE TABLE user_experience (
+  experience_id bigint NOT NULL,
+  user_id bigint NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (experience_id) REFERENCES experience (id)
+);
+CREATE TABLE user_review_list (
+  review_list_id bigint NOT NULL UNIQUE KEY,
+  user_id bigint NOT NULL,
+  FOREIGN KEY (review_list_id) REFERENCES review (id),
+  FOREIGN KEY (user_id) REFERENCES user (id)
 );
