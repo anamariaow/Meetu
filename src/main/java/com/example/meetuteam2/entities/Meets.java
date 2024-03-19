@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,9 @@ public class Meets {
     @Column(nullable = false)
     private LocalDateTime releaseDate;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
     public Meets(Long id, Integer quantity, LocalDateTime releaseDate, RecordStatusEnum recordStatus) {

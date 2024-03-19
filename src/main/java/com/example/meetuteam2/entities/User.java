@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 @Table
@@ -48,8 +49,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Booking> bookingList;
-
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
     public User(Long id, String name, String email, String password, String moreInfo, String interestList, String genderEnum,

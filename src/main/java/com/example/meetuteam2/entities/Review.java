@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -16,11 +17,13 @@ public class Review {
     private String text;
     @Column
     private LocalDate dateOfReview;
-    @Column(nullable = false)
-    private RecordStatusEnum recordStatus;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatus;
 
     public Review(Long id, Double grade, String text, LocalDate dateOfReview, RecordStatusEnum recordStatus, User user) {
         this.id = id;
