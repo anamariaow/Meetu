@@ -35,19 +35,18 @@ public class User {
     @Column(nullable = true)
     private String orientationEnum;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "experience_id"))
     private List<Experience> experienceList;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<Review> reviewList;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_meets")
+    @OneToOne
     private Meets meets;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<Booking> bookingList;
     @Enumerated(EnumType.STRING)
     @NotNull

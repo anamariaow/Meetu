@@ -17,7 +17,7 @@ public class Review {
     private String text;
     @Column
     private LocalDate dateOfReview;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
     @Enumerated(EnumType.STRING)

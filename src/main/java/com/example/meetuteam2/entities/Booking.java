@@ -22,11 +22,11 @@ public class Booking {
     @Column (nullable = false)
     private String typeExperience;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "experience_id")
     private Experience experience;
 

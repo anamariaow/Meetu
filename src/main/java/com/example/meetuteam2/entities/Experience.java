@@ -33,7 +33,7 @@ public class Experience {
     @ManyToMany(mappedBy = "experienceList")
     private List<User> user;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "experience")
     private List<Booking> booking;
 
     @Enumerated(EnumType.STRING)
