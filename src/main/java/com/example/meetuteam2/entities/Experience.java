@@ -27,9 +27,6 @@ public class Experience {
     @Column(nullable = false)
     private Integer experienceValue;
 
-    @Column(nullable = false)
-    private Integer idUserFK;
-
     @ManyToMany(mappedBy = "experienceList")
     private List<User> user;
 
@@ -42,14 +39,13 @@ public class Experience {
     private RecordStatusEnum recordStatus;
 
     public Experience(Long id, String name, String description, Double price, String typeExperience, Integer experienceValue,
-                      Integer idUserFK, RecordStatusEnum recordStatus, List<User> user, List<Booking> booking) {
+                       RecordStatusEnum recordStatus, List<User> user, List<Booking> booking) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.typeExperience = typeExperience;
         this.experienceValue = experienceValue;
-        this.idUserFK = idUserFK;
         this.recordStatus = recordStatus;
         this.user = user;
         this.booking = booking;
@@ -104,14 +100,6 @@ public class Experience {
 
     public void setExperienceValue(Integer experienceValue) {
         this.experienceValue = experienceValue;
-    }
-
-    public Integer getIdUserFK() {
-        return idUserFK;
-    }
-
-    public void setIdUserFK(Integer idUserFK) {
-        this.idUserFK = idUserFK;
     }
 
     public RecordStatusEnum getRecordStatus() {
