@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 @Table
@@ -34,22 +35,22 @@ public class User {
     @Column(nullable = true)
     private String orientationEnum;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "experience_id"))
     private List<Experience> experienceList;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<Review> reviewList;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_meets")
+    @OneToOne
     private Meets meets;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     private List<Booking> bookingList;
-
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
     public User(Long id, String name, String email, String password, String moreInfo, String interestList, String genderEnum,

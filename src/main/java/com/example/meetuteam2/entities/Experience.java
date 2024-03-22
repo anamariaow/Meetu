@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -26,27 +27,25 @@ public class Experience {
     @Column(nullable = false)
     private Integer experienceValue;
 
-    @Column(nullable = false)
-    private Integer idUserFK;
-
-    @Column(nullable = false)
-    private RecordStatusEnum recordStatus;
-
     @ManyToMany(mappedBy = "experienceList")
     private List<User> user;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "experience")
     private List<Booking> booking;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
+    private RecordStatusEnum recordStatus;
+
     public Experience(Long id, String name, String description, Double price, String typeExperience, Integer experienceValue,
-                      Integer idUserFK, RecordStatusEnum recordStatus, List<User> user, List<Booking> booking) {
+                       RecordStatusEnum recordStatus, List<User> user, List<Booking> booking) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.typeExperience = typeExperience;
         this.experienceValue = experienceValue;
-        this.idUserFK = idUserFK;
         this.recordStatus = recordStatus;
         this.user = user;
         this.booking = booking;
@@ -101,14 +100,6 @@ public class Experience {
 
     public void setExperienceValue(Integer experienceValue) {
         this.experienceValue = experienceValue;
-    }
-
-    public Integer getIdUserFK() {
-        return idUserFK;
-    }
-
-    public void setIdUserFK(Integer idUserFK) {
-        this.idUserFK = idUserFK;
     }
 
     public RecordStatusEnum getRecordStatus() {

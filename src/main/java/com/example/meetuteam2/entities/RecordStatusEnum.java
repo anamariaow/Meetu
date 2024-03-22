@@ -1,22 +1,16 @@
 package com.example.meetuteam2.entities;
 
 public enum RecordStatusEnum {
-    ATTIVO("attivato","1"),
-    DISATTIVATO("disattivato","0");
+    A("This record is active"),
+    I("This record is inactive"),
+    D("This record is deleted");
+    private String description;
 
-    private String descrizione;
-    private String value;
-
-    RecordStatusEnum(String descrizione, String value) {
-        this.descrizione = descrizione;
-        this.value = value;
+    RecordStatusEnum(String description) {
+        this.description = description;
     }
 
-    public String getDescrizione() {
-        return descrizione;
-    }
-
-    public String getValue() {
-        return value;
+    public String getDescription() {
+        return description;
     }
 }

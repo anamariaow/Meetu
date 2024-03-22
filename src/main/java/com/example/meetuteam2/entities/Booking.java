@@ -1,6 +1,8 @@
 package com.example.meetuteam2.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 @Table
 @Entity
 public class Booking {
@@ -20,15 +22,17 @@ public class Booking {
     @Column (nullable = false)
     private String typeExperience;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "experience_id")
     private Experience experience;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
     public Booking(Long id, String name, String description, Double price, String typeExperience,
