@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Query("SELECT b FROM Booking b WHERE recordStatus = 'A'")
     List<Booking> findAllActiveBooking();
     @Query("SELECT b FROM Booking b WHERE recordStatus = 'A' AND id = ?1")
-    List<Booking> findActiveBookingById(Long id);
+    Optional<Booking> findActiveBookingById(Long id);
 }
