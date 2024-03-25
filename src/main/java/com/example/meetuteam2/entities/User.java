@@ -25,18 +25,22 @@ public class User {
     private String moreInfo;
     @ElementCollection(targetClass = OrientationEnum.class)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @NotNull
+    @Column(nullable = false)
     private List<InterestEnum> interestEnumList;
     @Enumerated(EnumType.STRING)
+    @NotNull
     @Column(nullable = false)
     private GenderEnum genderEnum;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @NotNull
+    @Column(name = "zodiac_sign", nullable = false)
     private ZodiacSignEnum zodiacSignEnum;
-    @ElementCollection(targetClass = OrientationEnum.class)
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
-    private List<OrientationEnum> orientationEnumList;
+    @NotNull
+    @Column(name = "orientation_list", nullable = false)
+    private OrientationEnum orientationEnum;
 
     @ManyToMany
     @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
@@ -57,7 +61,7 @@ public class User {
     private RecordStatusEnum recordStatus;
 
     public User(Long id, String name, String email, String password, String moreInfo, List<InterestEnum> interestEnumList,
-                GenderEnum genderEnum, ZodiacSignEnum zodiacSignEnum, List<OrientationEnum> orientationEnumList,
+                GenderEnum genderEnum, ZodiacSignEnum zodiacSignEnum, OrientationEnum orientationEnum,
                 List<Experience> experienceList, List<Review> reviewList, Meets meets, List<Booking> bookingList,
                 RecordStatusEnum recordStatus) {
         this.id = id;
@@ -68,7 +72,7 @@ public class User {
         this.interestEnumList = interestEnumList;
         this.genderEnum = genderEnum;
         this.zodiacSignEnum = zodiacSignEnum;
-        this.orientationEnumList = orientationEnumList;
+        this.orientationEnum = orientationEnum;
         this.experienceList = experienceList;
         this.reviewList = reviewList;
         this.meets = meets;
@@ -143,12 +147,12 @@ public class User {
         this.zodiacSignEnum = zodiacSignEnum;
     }
 
-    public List<OrientationEnum> getOrientationEnumList() {
-        return orientationEnumList;
+    public OrientationEnum getOrientationEnum() {
+        return orientationEnum;
     }
 
-    public void setOrientationEnumList(List<OrientationEnum> orientationEnumList) {
-        this.orientationEnumList = orientationEnumList;
+    public void setOrientationEnum(OrientationEnum orientationEnum) {
+        this.orientationEnum = orientationEnum;
     }
 
     public List<Experience> getExperienceList() {
