@@ -1,5 +1,6 @@
 package com.example.meetuteam2.entities;
 
+import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
