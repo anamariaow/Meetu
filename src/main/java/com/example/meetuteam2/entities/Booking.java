@@ -16,12 +16,6 @@ public class Booking {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private Double price;
-
-    @Column (nullable = false)
-    private String typeExperience;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
