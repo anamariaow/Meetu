@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE recordStatus = 'A'")
     List<User> findAllActiveUsers();
     @Query("SELECT u FROM User u WHERE recordStatus = 'A' AND id = ?1")
-    List<User> findActiveUserById(Long id);
+    Optional<User> findActiveUserById(Long id);
 }
