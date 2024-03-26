@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MeetsRepository extends JpaRepository<Meets, Long> {
     @Query("SELECT m FROM Meets m WHERE recordStatus = 'A'")
     List<Meets> findAllActiveMeets();
     @Query("SELECT m FROM Meets m WHERE recordStatus = 'A' AND id = ?1")
-    List<Meets> findActiveMeetsById(Long id);
+    Optional<Meets> findActiveMeetsById(Long id);
 
 }
