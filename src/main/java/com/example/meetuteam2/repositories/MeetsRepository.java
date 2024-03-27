@@ -12,7 +12,4 @@ import java.util.Optional;
 public interface MeetsRepository extends JpaRepository<Meets, Long> {
     @Query("SELECT m FROM Meets m WHERE recordStatus = 'A'")
     List<Meets> findAllActiveMeets();
-    @Query("SELECT m FROM Meets m WHERE recordStatus = 'A' AND id = ?1")
-    Optional<Meets> findActiveMeetsById(Long id);
-
 }
