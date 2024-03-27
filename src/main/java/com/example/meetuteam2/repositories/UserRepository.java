@@ -12,6 +12,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE recordStatus = 'A'")
     List<User> findAllActiveUsers();
-    @Query("SELECT u FROM User u WHERE recordStatus = 'A' AND id = ?1")
-    Optional<User> findActiveUserById(Long id);
+
 }
