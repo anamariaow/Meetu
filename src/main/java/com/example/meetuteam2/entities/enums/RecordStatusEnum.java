@@ -1,4 +1,4 @@
-package com.example.meetuteam2.entities;
+package com.example.meetuteam2.entities.enums;
 
 public enum RecordStatusEnum {
     A("This record is active"),

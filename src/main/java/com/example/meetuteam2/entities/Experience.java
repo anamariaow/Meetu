@@ -1,5 +1,8 @@
 package com.example.meetuteam2.entities;
 
+import com.example.meetuteam2.entities.enums.ExperienceEnum;
+import com.example.meetuteam2.entities.enums.OrientationEnum;
+import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,9 +23,10 @@ public class Experience {
 
     @Column(nullable = false)
     private Double price;
-
+    @ElementCollection(targetClass = ExperienceEnum.class)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String typeExperience;
+    private List<ExperienceEnum> typeExperienceEnumList;
 
     @Column(nullable = false)
     private Integer experienceValue;
@@ -38,13 +42,13 @@ public class Experience {
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
-    public Experience(Long id, String name, String description, Double price, String typeExperience, Integer experienceValue,
+    public Experience(Long id, String name, String description, Double price, List<ExperienceEnum> typeExperienceEnumList, Integer experienceValue,
                        RecordStatusEnum recordStatus, List<User> user, List<Booking> booking) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.typeExperience = typeExperience;
+        this.typeExperienceEnumList = typeExperienceEnumList;
         this.experienceValue = experienceValue;
         this.recordStatus = recordStatus;
         this.user = user;
@@ -86,12 +90,12 @@ public class Experience {
         this.price = price;
     }
 
-    public String getTypeExperience() {
-        return typeExperience;
+    public List<ExperienceEnum> getTypeExperienceEnumList() {
+        return typeExperienceEnumList;
     }
 
-    public void setTypeExperience(String typeExperience) {
-        this.typeExperience = typeExperience;
+    public void setTypeExperienceEnumList(List<ExperienceEnum> typeExperience) {
+        this.typeExperienceEnumList = typeExperience;
     }
 
     public Integer getExperienceValue() {

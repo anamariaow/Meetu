@@ -1,5 +1,6 @@
 package com.example.meetuteam2.entities;
 
+import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,12 +17,6 @@ public class Booking {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private Double price;
-
-    @Column (nullable = false)
-    private String typeExperience;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -35,13 +30,11 @@ public class Booking {
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
-    public Booking(Long id, String name, String description, Double price, String typeExperience,
+    public Booking(Long id, String name, String description,
                    User user, Experience experience, RecordStatusEnum recordStatus) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.price = price;
-        this.typeExperience = typeExperience;
         this.user = user;
         this.experience = experience;
         this.recordStatus = recordStatus;
@@ -72,22 +65,6 @@ public class Booking {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getTypeExperience() {
-        return typeExperience;
-    }
-
-    public void setTypeExperience(String typeExperience) {
-        this.typeExperience = typeExperience;
     }
 
     public User getUser() {

@@ -1,5 +1,6 @@
 package com.example.meetuteam2.entities;
 
+import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,7 +19,7 @@ public class Review {
     @Column
     private LocalDate dateOfReview;
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
     @Enumerated(EnumType.STRING)
     @NotNull
