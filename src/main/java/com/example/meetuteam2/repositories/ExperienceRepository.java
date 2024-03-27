@@ -1,6 +1,7 @@
 package com.example.meetuteam2.repositories;
 
 import com.example.meetuteam2.entities.User;
+import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
