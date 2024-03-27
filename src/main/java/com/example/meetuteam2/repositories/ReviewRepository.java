@@ -12,6 +12,4 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review,Long> {
     @Query("SELECT r FROM Review r WHERE recordStatus = 'A'")
     List<Review> findAllActiveReview();
-    @Query("SELECT r FROM Review r WHERE recordStatus = 'A' AND id = ?1")
-    Optional<Review> findActiveReviewById(Long id);
 }
