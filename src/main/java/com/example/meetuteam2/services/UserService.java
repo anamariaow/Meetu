@@ -38,7 +38,7 @@ public class UserService {
     /**
      * questo metodo recupera un User partendo dalla sua id
      * @param id
-     * @return l'User trovato (se presente) oppure non ritorna nulla
+     * @return l'User trovato (se presente) oppure ritorna Optional.empty
      */
     public Optional<User> getUserById(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
@@ -53,7 +53,7 @@ public class UserService {
      * questo metodo aggiorna i field selezionati di un User, recuperandolo attraverso l'id
      * @param id
      * @param user
-     * @return l'User aggiornato (se presente) oppure non ritorna nulla
+     * @return l'User aggiornato (se presente) oppure ritorna Optional.empty
      */
     public Optional<User> updateUserById(Long id, User user) {
         Optional<User> userOptional = getUserById(id);
@@ -82,7 +82,7 @@ public class UserService {
      * questo metodo aggiorna lo status di un User, recuperandolo attraverso l'id
      * @param id
      * @param recordStatusEnum
-     * @return l'User con stato aggiornato (se presente) oppure non ritorna nulla
+     * @return l'User con stato aggiornato (se presente) oppure ritorna Optional.empty
      */
     public Optional<User> updateUserRecordStatus(Long id, RecordStatusEnum recordStatusEnum) {
         Optional<User> userOptional = getUserById(id);
@@ -98,7 +98,7 @@ public class UserService {
     /**
      * questo metodo elimina un User, recuperandolo attraverso il suo id
      * @param id
-     * @return l'User appena eliminato (se presente) o non ritorna nulla
+     * @return l'User appena eliminato (se presente) oppure ritorna Optional.empty
      */
     public Optional<User> deleteUserById(Long id){
         Optional<User> userOptional = getUserById(id);
