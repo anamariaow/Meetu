@@ -11,6 +11,4 @@ import java.util.Optional;
 public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Query("SELECT b FROM Booking b WHERE recordStatus = 'A'")
     List<Booking> findAllActiveBooking();
-    @Query("SELECT b FROM Booking b WHERE id = ?1")
-    Optional<Booking> findActiveBookingById(Long id);
 }
