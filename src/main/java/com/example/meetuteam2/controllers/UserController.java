@@ -1,6 +1,7 @@
 package com.example.meetuteam2.controllers;
 
 import com.example.meetuteam2.entities.Meets;
+import com.example.meetuteam2.entities.Review;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +50,11 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteuser/{id}")
-    public ResponseEntity<User> deleteUserById(@PathVariable Long id) {
-        Optional<User> userOptional = userService.deleteUserById(id);
-        if(userOptional.isPresent()) {
-            return ResponseEntity.ok().body(userOptional.get());
+    @DeleteMapping("/deleteuser")
+    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
+        Optional<User> userOptional = userService.deleteUserRecordStatus(id);
+        if (userOptional.isPresent()) {
+            return ResponseEntity.ok(userOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

@@ -1,6 +1,7 @@
 package com.example.meetuteam2.services;
 
 import com.example.meetuteam2.entities.Meets;
+import com.example.meetuteam2.entities.Review;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.repositories.UserRepository;
@@ -100,12 +101,13 @@ public class UserService {
      * @param id
      * @return l'User appena eliminato (se presente) oppure ritorna Optional.empty
      */
-    public Optional<User> deleteUserById(Long id){
+    public Optional<User> deleteUserRecordStatus(Long id){
         Optional<User> userOptional = getUserById(id);
         if(userOptional.isPresent()){
-            userRepository.deleteById(userOptional.get().getId());
-            return Optional.of(userOptional.get());
-        } else {
+            userOptional.get().setRecordStatus(RecordStatusEnum.D);
+            User savedUser = userRepository.save(userOptional.get());
+            return Optional.of(savedUser);
+        }else {
             return Optional.empty();
         }
     }
