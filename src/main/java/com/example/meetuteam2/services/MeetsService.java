@@ -39,7 +39,7 @@ public class MeetsService {
     /**
      * questo metodo recupera un Meets partendo dall'id
      * @param id
-     * @return il Meets trovato, se presente, oppure ritorna Optional.empty()
+     * @return il Meets trovato, se presente, oppure ritorna un Optional vuoto
      */
     public Optional<Meets> getMeetsById(Long id){
         Optional<Meets> meetsOptional = meetsRepository.findById(id);
@@ -54,7 +54,7 @@ public class MeetsService {
      * questo metodo riprende un Meets attraverso l'id e ne aggiorna i field selezionati
      * @param id
      * @param meets
-     * @return il Meets aggiornato, se presente, oppure ritorna Optional.empty()
+     * @return il Meets aggiornato, se presente, oppure ritorna un Optional vuoto
      */
     public Optional<Meets> updateMeets(Long id,Meets meets){
         Optional<Meets> meetsOptional = getMeetsById(id);
@@ -71,15 +71,14 @@ public class MeetsService {
     }
 
     /**
-     * questo metodo recupera un Meets attraverso l'id e ne aggiorna lo status
+     * questo metodo recupera un Meets attraverso l'id e ne aggiorna lo status come Deleted
      * @param id
-     * @param recordStatusEnum
-     * @return il Meets con stato aggiornato, se presente, oppure ritorna Optional.empty()
+     * @return il Meets con stato aggiornato, se presente, oppure ritorna un Optional vuoto
      */
-    public Optional<Meets> updateMeetsRecordStatus(Long id, RecordStatusEnum recordStatusEnum){
+    public Optional<Meets> deleteMeetsRecordStatus(Long id){
         Optional<Meets> meetsOptional = getMeetsById(id);
         if(meetsOptional.isPresent()){
-            meetsOptional.get().setRecordStatus(recordStatusEnum);
+            meetsOptional.get().setRecordStatus(RecordStatusEnum.D);
             Meets savedMeets = meetsRepository.save(meetsOptional.get());
             return Optional.of(savedMeets);
         }else {
@@ -87,18 +86,4 @@ public class MeetsService {
         }
     }
 
-    /**
-     * questo metodo elimina un Meets, recuperandolo attraverso il suo id
-     * @param id
-     * @return il Meets appena eliminato, se presente, oppure ritorna Optional.empty()
-     */
-    public Optional<Meets> deleteMeets(Long id){
-        Optional<Meets> meetsOptional = getMeetsById(id);
-        if(meetsOptional.isPresent()){
-            meetsRepository.deleteById(meetsOptional.get().getId());
-            return Optional.of(meetsOptional.get());
-        }else {
-            return Optional.empty();
-        }
-    }
 }
