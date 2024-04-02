@@ -39,7 +39,7 @@ public class MeetsService {
     /**
      * questo metodo recupera un Meets partendo dall'id
      * @param id
-     * @return il Meets trovato, se presente, oppure non ritorna nulla
+     * @return il Meets trovato, se presente, oppure ritorna Optional.empty()
      */
     public Optional<Meets> getMeetsById(Long id){
         Optional<Meets> meetsOptional = meetsRepository.findById(id);
@@ -54,7 +54,7 @@ public class MeetsService {
      * questo metodo riprende un Meets attraverso l'id e ne aggiorna i field selezionati
      * @param id
      * @param meets
-     * @return il Meets aggiornato, se presente, oppure non ritorna nulla
+     * @return il Meets aggiornato, se presente, oppure ritorna Optional.empty()
      */
     public Optional<Meets> updateMeets(Long id,Meets meets){
         Optional<Meets> meetsOptional = getMeetsById(id);
@@ -74,7 +74,7 @@ public class MeetsService {
      * questo metodo recupera un Meets attraverso l'id e ne aggiorna lo status
      * @param id
      * @param recordStatusEnum
-     * @return il Meets con stato aggiornato, se presente, oppure non ritorna nulla
+     * @return il Meets con stato aggiornato, se presente, oppure ritorna Optional.empty()
      */
     public Optional<Meets> updateMeetsRecordStatus(Long id, RecordStatusEnum recordStatusEnum){
         Optional<Meets> meetsOptional = getMeetsById(id);
@@ -90,7 +90,7 @@ public class MeetsService {
     /**
      * questo metodo elimina un Meets, recuperandolo attraverso il suo id
      * @param id
-     * @return il Meets appena eliminato, se presente, oppure non ritorna nulla
+     * @return il Meets appena eliminato, se presente, oppure ritorna Optional.empty()
      */
     public Optional<Meets> deleteMeets(Long id){
         Optional<Meets> meetsOptional = getMeetsById(id);
