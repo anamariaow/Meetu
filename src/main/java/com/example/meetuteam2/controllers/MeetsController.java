@@ -1,7 +1,6 @@
 package com.example.meetuteam2.controllers;
 
 import com.example.meetuteam2.entities.Meets;
-import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.services.MeetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,19 +46,9 @@ public class MeetsController {
         }
     }
 
-    @PutMapping("/updatemeetsstatus")
-    public ResponseEntity<Meets> updateMeetsStatus(@PathVariable Long id, @RequestBody RecordStatusEnum recordStatusEnum) {
-        Optional<Meets> meetsOptional = meetsService.updateMeetsRecordStatus(id, recordStatusEnum);
-        if (meetsOptional.isPresent()) {
-            return ResponseEntity.ok(meetsOptional.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @DeleteMapping("/deletemeets")
-    public ResponseEntity<Meets> deleteMeets(Long id) {
-        Optional<Meets> meetsOptional = meetsService.deleteMeets(id);
+    public ResponseEntity<Meets> deleteMeetsStatus(@PathVariable Long id) {
+        Optional<Meets> meetsOptional = meetsService.deleteMeetsRecordStatus(id);
         if (meetsOptional.isPresent()) {
             return ResponseEntity.ok(meetsOptional.get());
         } else {
