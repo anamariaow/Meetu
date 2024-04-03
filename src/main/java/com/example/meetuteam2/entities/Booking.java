@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,11 +17,11 @@ public class Booking {
 
     @Column(nullable = false)
     private String description;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "experience_id")
     private Experience experience;

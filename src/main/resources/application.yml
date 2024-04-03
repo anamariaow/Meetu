@@ -1,4 +1,5 @@
 spring:
+  output.ansi.enabled: ALWAYS
   datasource:
     url: jdbc:mysql://localhost:3306/meetu
     username: team2

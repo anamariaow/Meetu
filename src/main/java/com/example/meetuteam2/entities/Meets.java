@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -18,7 +19,7 @@ public class Meets {
 
     @Column(nullable = false)
     private LocalDateTime releaseDate;
-
+    @JsonIgnore
     @OneToOne(mappedBy = "meets")
     private User user;
 
