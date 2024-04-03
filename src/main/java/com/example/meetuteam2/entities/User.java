@@ -1,6 +1,7 @@
 package com.example.meetuteam2.entities;
 
 import com.example.meetuteam2.entities.enums.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -24,7 +25,6 @@ public class User {
     @Column(nullable = true)
     private String moreInfo;
     @ElementCollection(targetClass = OrientationEnum.class)
-    @Enumerated(EnumType.STRING)
     @NotNull
     @Column(nullable = false)
     private List<InterestEnum> interestEnumList;
@@ -41,18 +41,18 @@ public class User {
     @NotNull
     @Column(name = "orientation_list", nullable = false)
     private OrientationEnum orientationEnum;
-
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "experience_id"))
     private List<Experience> experienceList;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Review> reviewList;
-
+    @JsonIgnore
     @OneToOne
     private Meets meets;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Booking> bookingList;
     @Enumerated(EnumType.STRING)

@@ -3,6 +3,7 @@ package com.example.meetuteam2.entities;
 import com.example.meetuteam2.entities.enums.ExperienceEnum;
 import com.example.meetuteam2.entities.enums.OrientationEnum;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -30,10 +31,10 @@ public class Experience {
 
     @Column(nullable = false)
     private Integer experienceValue;
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "experienceList")
     private List<User> user;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "experience")
     private List<Booking> booking;
 
