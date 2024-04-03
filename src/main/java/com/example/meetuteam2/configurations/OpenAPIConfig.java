@@ -20,7 +20,7 @@ public class OpenAPIConfig {
         info.title("Meetu@");
         info.setContact(developer);
         info.setVersion("0.5");
-        info.setDescription("welcome to my webApp Meetu@");
+        info.setDescription("Welcome to Meetu@");
 
         return new OpenAPI().info(info);
     }
