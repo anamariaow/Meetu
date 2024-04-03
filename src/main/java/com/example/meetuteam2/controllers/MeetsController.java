@@ -46,7 +46,7 @@ public class MeetsController {
         }
     }
 
-    @DeleteMapping("/deletemeets")
+    @PutMapping("/deletemeets")
     public ResponseEntity<Meets> deleteMeetsStatus(@PathVariable Long id) {
         Optional<Meets> meetsOptional = meetsService.deleteMeetsRecordStatus(id);
         if (meetsOptional.isPresent()) {

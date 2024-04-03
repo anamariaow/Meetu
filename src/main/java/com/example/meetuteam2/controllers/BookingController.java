@@ -55,7 +55,7 @@ public class BookingController {
         }
     }
 
-    @DeleteMapping("/deletebooking")
+    @PutMapping("/deletebooking")
     public ResponseEntity<Booking> deleteBooking(Long id) {
         Optional<Booking> bookingOptional = bookingService.deleteBooking(id);
         if (bookingOptional.isPresent()) {

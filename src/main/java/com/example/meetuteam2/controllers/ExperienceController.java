@@ -54,7 +54,7 @@ public class ExperienceController {
         }
     }
 
-    @DeleteMapping("/deleteexperience")
+    @PutMapping("/deleteexperience")
     public ResponseEntity<Experience> deleteExperience(Long id) {
         Optional<Experience> experienceOptional = experienceService.deleteExperience(id);
         if (experienceOptional.isPresent()) {

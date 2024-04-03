@@ -50,7 +50,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/deleteuser")
+    @PutMapping("/deleteuser")
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
         Optional<User> userOptional = userService.deleteUserRecordStatus(id);
         if (userOptional.isPresent()) {
