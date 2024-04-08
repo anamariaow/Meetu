@@ -1,11 +1,9 @@
 package com.example.meetuteam2.controllers;
 
-import com.example.meetuteam2.entities.Meets;
-import com.example.meetuteam2.entities.Review;
+import com.example.meetuteam2.DTO.UserDTO;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,29 +18,29 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/createuser")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return ResponseEntity.ok().body(userService.createUser(user));
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok().body(userService.createUser(userDTO));
     }
 
     @GetMapping("/allusers")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok().body(userService.getAllActiveUsers());
     }
 
-    @GetMapping("/getuserbyid/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> userOptional = userService.getUserById(id);
+    @GetMapping("/finduser/{id}")
+    public ResponseEntity<Optional<UserDTO>> getUserById(@RequestParam Long id) {
+        Optional<UserDTO> userOptional = userService.getUserById(id);
         if(userOptional.isPresent()) {
-            return ResponseEntity.ok().body(userOptional.get());
+            return ResponseEntity.ok(userOptional);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/updateuserbyid/{id}")
-    public ResponseEntity<User> updateUserById(@PathVariable Long id,
-                                               @RequestBody User user) {
-        Optional<User> userOptional = userService.updateUserById(id, user);
+    public ResponseEntity<UserDTO> updateUserById(@PathVariable Long id,
+                                               @RequestBody UserDTO userDTO) {
+        Optional<UserDTO> userOptional = userService.updateUserById(id, userDTO);
         if(userOptional.isPresent()) {
             return ResponseEntity.ok().body(userOptional.get());
         } else {
@@ -51,8 +49,8 @@ public class UserController {
     }
 
     @PutMapping("/deleteuser")
-    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-        Optional<User> userOptional = userService.deleteUserRecordStatus(id);
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable Long id) {
+        Optional<UserDTO> userOptional = userService.updateUserRecordStatus(id);
         if (userOptional.isPresent()) {
             return ResponseEntity.ok(userOptional.get());
         } else {

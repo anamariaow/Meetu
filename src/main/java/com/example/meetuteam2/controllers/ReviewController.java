@@ -22,7 +22,7 @@ public class ReviewController {
         return ResponseEntity.ok(reviewService.createReview(reviewDTO));
     }
 
-    @GetMapping("/getreview")
+    @GetMapping("/getreviews")
     public ResponseEntity<List<ReviewDTO>> findAllReview() {
         return ResponseEntity.ok(reviewService.getActiveReviewList());
     }
