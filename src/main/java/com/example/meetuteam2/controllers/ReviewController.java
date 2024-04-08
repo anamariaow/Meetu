@@ -1,5 +1,6 @@
 package com.example.meetuteam2.controllers;
 
+import com.example.meetuteam2.DTO.ReviewDTO;
 import com.example.meetuteam2.entities.Review;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.services.ReviewService;
@@ -17,18 +18,18 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping("/createreview")
-    public ResponseEntity<Review> createMeets(@RequestBody Review review) {
-        return ResponseEntity.ok(reviewService.createReview(review));
+    public ResponseEntity<ReviewDTO> createMeets(@RequestBody ReviewDTO reviewDTO) {
+        return ResponseEntity.ok(reviewService.createReview(reviewDTO));
     }
 
     @GetMapping("/getreview")
-    public ResponseEntity<List<Review>> findAllReview() {
+    public ResponseEntity<List<ReviewDTO>> findAllReview() {
         return ResponseEntity.ok(reviewService.getActiveReviewList());
     }
 
     @GetMapping("/findreview/{id}")
-    public ResponseEntity<Optional<Review>> findByIdReview(@RequestParam Long id) {
-        Optional<Review> reviewOptional = reviewService.getReviewById(id);
+    public ResponseEntity<Optional<ReviewDTO>> findByIdReview(@RequestParam Long id) {
+        Optional<ReviewDTO> reviewOptional = reviewService.getReviewById(id);
         if (reviewOptional.isPresent()) {
             return ResponseEntity.ok(reviewOptional);
         } else {
@@ -36,9 +37,9 @@ public class ReviewController {
         }
     }
 
-    @PutMapping("/updatereview")
-    public ResponseEntity<Review> modifyMeets(@PathVariable Long id, @RequestBody Review review) {
-        Optional<Review> reviewOptional = reviewService.updateReview(id, review);
+    @PutMapping("/updatereview/{id}")
+    public ResponseEntity<ReviewDTO> modifyMeets(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
+        Optional<ReviewDTO> reviewOptional = reviewService.updateReview(id, reviewDTO);
         if (reviewOptional.isPresent()) {
             return ResponseEntity.ok(reviewOptional.get());
         } else {
@@ -46,9 +47,9 @@ public class ReviewController {
         }
     }
 
-    @PutMapping("/deletereview")
-    public ResponseEntity<Review> deleteMeetsStatus(@PathVariable Long id) {
-        Optional<Review> reviewOptional = reviewService.deleteReviewRecordStatus(id);
+    @PutMapping("/deletereview/{id}")
+    public ResponseEntity<ReviewDTO> deleteMeetsStatus(@PathVariable Long id) {
+        Optional<ReviewDTO> reviewOptional = reviewService.deleteReviewRecordStatus(id);
         if (reviewOptional.isPresent()) {
             return ResponseEntity.ok(reviewOptional.get());
         } else {
