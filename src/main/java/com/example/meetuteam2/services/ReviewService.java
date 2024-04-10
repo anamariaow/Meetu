@@ -88,7 +88,7 @@ public class ReviewService {
     }
     /**
      * questo metodo aggiorna i field selezionati di una Review, recuperandolo attraverso l'id
-     * crea e ritorna una ReviewDTO con i dati dello della Review aggiornata
+     * crea e ritorna una ReviewDTO con i dati della Review aggiornata
      * @param id
      * @param reviewDTO
      * @return la ReviewDTO aggiornata (se presente) oppure ritorna un Optional vuoto
