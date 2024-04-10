@@ -1,5 +1,6 @@
 package com.example.meetuteam2.repositories;
 
+import com.example.meetuteam2.DTO.ExperienceDTO;
 import com.example.meetuteam2.entities.Experience;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
