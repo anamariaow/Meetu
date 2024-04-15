@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 public class MeetsDTO {
     private Long id;
     private Integer quantity;
-    private LocalDate releaseDate;
+    private LocalDateTime releaseDate;
 
-    public MeetsDTO(Long id, Integer quantity, LocalDate releaseDate) {
+    public MeetsDTO(Long id, Integer quantity, LocalDateTime releaseDate) {
         this.id = id;
         this.quantity = quantity;
         this.releaseDate = releaseDate;
@@ -37,7 +37,7 @@ public class MeetsDTO {
         return releaseDate;
     }
 
-    public void setReleaseDate(LocalDate releaseDate) {
+    public void setReleaseDate(LocalDateTime releaseDate) {
         this.releaseDate = releaseDate;
     }
 }

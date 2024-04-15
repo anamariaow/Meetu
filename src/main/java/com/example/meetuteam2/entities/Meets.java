@@ -56,7 +56,7 @@ public class Meets {
         this.quantity = quantity;
     }
 
-    public LocalDate getReleaseDate() {
+    public LocalDateTime getReleaseDate() {
         return releaseDate;
     }
 
