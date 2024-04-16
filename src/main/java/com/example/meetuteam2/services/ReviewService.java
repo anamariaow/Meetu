@@ -2,8 +2,10 @@ package com.example.meetuteam2.services;
 
 import com.example.meetuteam2.DTO.ReviewDTO;
 import com.example.meetuteam2.entities.Review;
+import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.repositories.ReviewRepository;
+import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private UserRepository userRepository;
     /**
      * questo metodo richiede una ReviewDTO, la trasforma in Review Entity per poi salvarla.
      * crea e poi ritorna una ReviewDTO come response utilizzando i dati della Review Entity appena salvata,
@@ -23,23 +27,29 @@ public class ReviewService {
      * @return la ReviewDTO creata
      * @author AT
      */
-    public ReviewDTO createReview(ReviewDTO reviewRequestDTO){
-        Review review = new Review();
-        review.setGrade(reviewRequestDTO.getGrade());
-        review.setText(reviewRequestDTO.getText());
-        review.setDateOfReview(LocalDate.now());
-        review.setRecordStatus(RecordStatusEnum.A);
+    public Optional<ReviewDTO> createReview(Long userId,ReviewDTO reviewRequestDTO){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if(userOptional.isPresent()) {
+            Review review = new Review();
+            review.setGrade(reviewRequestDTO.getGrade());
+            review.setText(reviewRequestDTO.getText());
+            review.setDateOfReview(LocalDate.now());
+            review.setUser(userOptional.get());
+            review.setRecordStatus(RecordStatusEnum.A);
 
-        Review savedReview = reviewRepository.save(review);
+            Review savedReview = reviewRepository.save(review);
 
-        ReviewDTO reviewResponseDTO = new ReviewDTO();
+            ReviewDTO reviewResponseDTO = new ReviewDTO();
 
-        reviewResponseDTO.setId(savedReview.getId());
-        reviewResponseDTO.setText(savedReview.getText());
-        reviewResponseDTO.setGrade(savedReview.getGrade());
-        reviewResponseDTO.setDateOfReview(savedReview.getDateOfReview());
+            reviewResponseDTO.setId(savedReview.getId());
+            reviewResponseDTO.setText(savedReview.getText());
+            reviewResponseDTO.setGrade(savedReview.getGrade());
+            reviewResponseDTO.setDateOfReview(savedReview.getDateOfReview());
 
-        return reviewResponseDTO;
+            return Optional.of(reviewResponseDTO);
+        }else {
+            return Optional.empty();
+        }
     }
     /**
      * questo metodo richiede la lista delle Review attive
