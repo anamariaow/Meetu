@@ -14,9 +14,15 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+
     @PostMapping("/createbooking")
-    public ResponseEntity<BookingDTO> addBooking(@RequestBody BookingDTO bookingDTO) {
-        return ResponseEntity.ok(bookingService.addBooking(bookingDTO));
+    public ResponseEntity<BookingDTO> addBooking(@PathVariable(name = "userId") Long userId, @PathVariable(name = "experienceId") Long experienceId, @RequestBody BookingDTO bookingDTO) {
+        Optional<BookingDTO> optionalBookingDTO = bookingService.addBooking(userId, experienceId, bookingDTO);
+        if (optionalBookingDTO.isPresent()) {
+            return ResponseEntity.ok().body(optionalBookingDTO.get());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/getbookings")

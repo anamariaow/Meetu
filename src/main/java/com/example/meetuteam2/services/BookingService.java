@@ -1,8 +1,12 @@
 package com.example.meetuteam2.services;
 import com.example.meetuteam2.DTO.BookingDTO;
 import com.example.meetuteam2.entities.Booking;
+import com.example.meetuteam2.entities.Experience;
+import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.repositories.BookingRepository;
+import com.example.meetuteam2.repositories.ExperienceRepository;
+import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +18,43 @@ import java.util.Optional;
 public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ExperienceRepository experienceRepository;
 
 
     /**
      * questo metodo chiede un bookingDTO e la trasforma in Booking Entity per poi salvarla.crea una nuova prenotazione
+     *
+     * @param experienceId
      * @param bookingDTO
      * @return booking fatta
      * @author SS
      */
-    public BookingDTO addBooking(BookingDTO bookingDTO){
-        Booking booking = new Booking();
-        booking.setName(booking.getName());
-        booking.setDescription(booking.getDescription());
+    public Optional<BookingDTO> addBooking(Long userId, Long experienceId, BookingDTO bookingDTO){
+        Optional<User> userOptional = userRepository.findById(userId);
+        Optional<Experience> experienceOptional= experienceRepository.findById(experienceId);
+        if(userOptional.isPresent() && experienceOptional.isPresent()){
+            Booking booking = new Booking();
 
-        Booking savedBooking = bookingRepository.save(booking);
+            booking.setName(bookingDTO.getName());
+            booking.setDescription(bookingDTO.getDescription());
+            booking.setUser(userOptional.get());
+            booking.setExperience(experienceOptional.get());
 
-        BookingDTO bookingResponseDTO = new BookingDTO();
+            Booking savedBooking = bookingRepository.save(booking);
 
-        bookingResponseDTO.setId(savedBooking.getId());
-        bookingResponseDTO.setName(savedBooking.getName());
-        bookingResponseDTO.setDescription(savedBooking.getDescription());
-        return bookingResponseDTO;
+            BookingDTO bookingResponseDTO = new BookingDTO();
+            bookingResponseDTO.setId(savedBooking.getId());
+            bookingResponseDTO.setName(savedBooking.getName());
+            bookingResponseDTO.setDescription(savedBooking.getDescription());
+            return Optional.of(bookingResponseDTO);
+        }else{
+            return Optional.empty();
+        }
     }
+
 
 
     /**
