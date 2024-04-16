@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 @Table
 @Entity
@@ -45,16 +46,16 @@ public class User {
     @ManyToMany
     @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "experience_id"))
-    private List<Experience> experienceList;
+    private List<Experience> experienceList = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Review> reviewList;
+    private List<Review> reviewList = new ArrayList<>();
     @JsonIgnore
     @OneToOne
     private Meets meets;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Booking> bookingList;
+    private List<Booking> bookingList = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     @NotNull
     @Column(name = "record_status", nullable = false, length = 1)
