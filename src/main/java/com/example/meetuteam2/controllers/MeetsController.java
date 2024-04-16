@@ -1,7 +1,6 @@
 package com.example.meetuteam2.controllers;
 
 import com.example.meetuteam2.DTO.MeetsDTO;
-import com.example.meetuteam2.entities.Meets;
 import com.example.meetuteam2.services.MeetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +16,14 @@ public class MeetsController {
     @Autowired
     private MeetsService meetsService;
 
-    @PostMapping("/createmeets")
-    public ResponseEntity<MeetsDTO> createMeets(@RequestBody MeetsDTO meetsDTO) {
-        return ResponseEntity.ok(meetsService.createMeets(meetsDTO));
+    @PostMapping("/createmeets/{userId}")
+    public ResponseEntity<MeetsDTO> createMeets(@PathVariable(name = "userId") Long userId, @RequestBody MeetsDTO meetsDTO) {
+        Optional<MeetsDTO> meetsResponseOptional = meetsService.createMeets(userId,meetsDTO);
+        if (meetsResponseOptional.isPresent()) {
+            return ResponseEntity.ok().body(meetsResponseOptional.get());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/getmeets")

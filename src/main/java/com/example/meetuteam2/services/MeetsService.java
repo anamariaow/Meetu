@@ -2,8 +2,10 @@ package com.example.meetuteam2.services;
 
 import com.example.meetuteam2.DTO.MeetsDTO;
 import com.example.meetuteam2.entities.Meets;
+import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.repositories.MeetsRepository;
+import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,26 +19,38 @@ public class MeetsService {
     @Autowired
     private MeetsRepository meetsRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * questo metodo richiede un MeetsDTO, lo trasforma in Meets Entity per poi salvarlo,
      * crea e poi ritorna un MeetsDTO come response utilizzando i dati della Meets Entity appena salvata.
+     *
      * @param meetsRequestDTO
      * @return MeetsDTO inserito
      * @author anamariaow
      */
 
-    public MeetsDTO createMeets(MeetsDTO meetsRequestDTO){
-        Meets meets = new Meets();
-        meets.setQuantity(meetsRequestDTO.getQuantity());
-        meets.setReleaseDate(LocalDateTime.now());
-        meets.setRecordStatus(RecordStatusEnum.A);
-        Meets savedMeets = meetsRepository.save(meets);
+    public Optional<MeetsDTO> createMeets(Long userId, MeetsDTO meetsRequestDTO){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            Meets meets = new Meets();
+            meets.setQuantity(meetsRequestDTO.getQuantity());
+            meets.setReleaseDate(LocalDateTime.now());
+            meets.setUser(userOptional.get());
+            meets.setRecordStatus(RecordStatusEnum.A);
 
-        MeetsDTO meetsResponseDTO = new MeetsDTO();
-        meetsResponseDTO.setId(savedMeets.getId());
-        meetsResponseDTO.setQuantity(savedMeets.getQuantity());
-        meetsResponseDTO.setReleaseDate(savedMeets.getReleaseDate());
-        return meetsRequestDTO;
+            Meets savedMeets = meetsRepository.save(meets);
+
+            MeetsDTO meetsResponseDTO = new MeetsDTO();
+            meetsResponseDTO.setId(savedMeets.getId());
+            meetsResponseDTO.setQuantity(savedMeets.getQuantity());
+            meetsResponseDTO.setReleaseDate(savedMeets.getReleaseDate());
+            return Optional.of(meetsRequestDTO);
+        } else {
+            return Optional.empty();
+        }
+
     }
 
     /**
