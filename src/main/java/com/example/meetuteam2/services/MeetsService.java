@@ -1,15 +1,13 @@
 package com.example.meetuteam2.services;
 
 import com.example.meetuteam2.DTO.MeetsDTO;
-import com.example.meetuteam2.DTO.ReviewDTO;
 import com.example.meetuteam2.entities.Meets;
-import com.example.meetuteam2.entities.Review;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.repositories.MeetsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +28,7 @@ public class MeetsService {
     public MeetsDTO createMeets(MeetsDTO meetsRequestDTO){
         Meets meets = new Meets();
         meets.setQuantity(meetsRequestDTO.getQuantity());
-        meets.setReleaseDate(LocalDate.now().atStartOfDay());
+        meets.setReleaseDate(LocalDateTime.now());
         meets.setRecordStatus(RecordStatusEnum.A);
         Meets savedMeets = meetsRepository.save(meets);
 
