@@ -2,13 +2,14 @@ package com.example.meetuteam2.services;
 
 import com.example.meetuteam2.DTO.UserDTO;
 import com.example.meetuteam2.entities.Meets;
-import com.example.meetuteam2.entities.Review;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.example.meetuteam2.repositories.MeetsRepository;
 import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MeetsRepository meetsRepository;
 
     /**
      * questo metodo richiede un UserDTO, lo trasforma in User Entity per poi salvarlo.
@@ -28,16 +31,24 @@ public class UserService {
      * @author ET
      */
     public UserDTO createUser(UserDTO userRequestDTO) {
+        Meets meets = new Meets();
+        meets.setQuantity(5);
+        meets.setReleaseDate(LocalDateTime.now());
+        meets.setRecordStatus(RecordStatusEnum.A);
+        Meets savedMeets = meetsRepository.save(meets);
+
         User user = new User();
         user.setName(userRequestDTO.getName());
         user.setEmail(userRequestDTO.getEmail());
         user.setPassword(userRequestDTO.getPassword());
         user.setMoreInfo(user.getMoreInfo());
         user.setInterestEnumList(userRequestDTO.getInterestEnumList());
+        user.setMoreInfo(userRequestDTO.getMoreInfo());
         user.setGenderEnum(userRequestDTO.getGenderEnum());
         user.setZodiacSignEnum(userRequestDTO.getZodiacSignEnum());
         user.setOrientationEnum(userRequestDTO.getOrientationEnum());
         user.setRecordStatus(RecordStatusEnum.A);
+        user.setMeets(savedMeets);
 
         User savedUser = userRepository.save(user);
 
