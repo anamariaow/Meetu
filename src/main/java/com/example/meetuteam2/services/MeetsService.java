@@ -46,7 +46,7 @@ public class MeetsService {
             meetsResponseDTO.setId(savedMeets.getId());
             meetsResponseDTO.setQuantity(savedMeets.getQuantity());
             meetsResponseDTO.setReleaseDate(savedMeets.getReleaseDate());
-            return Optional.of(meetsRequestDTO);
+            return Optional.of(meetsResponseDTO);
         } else {
             return Optional.empty();
         }
