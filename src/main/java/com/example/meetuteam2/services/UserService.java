@@ -8,7 +8,9 @@ import com.example.meetuteam2.repositories.MeetsRepository;
 import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +23,19 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private MeetsRepository meetsRepository;
+    @Autowired
+    private FileStorageService fileStorageService;
 
     /**
      * questo metodo richiede un UserDTO, lo trasforma in User Entity per poi salvarlo.
      * crea e poi ritorna un UserDTO come response utilizzando i dati dell'User Entity appena salvato
      *
      * @param userRequestDTO
+     * @param file
      * @return UserDTO creato.
      * @author ET
      */
-    public UserDTO createUser(UserDTO userRequestDTO) {
+    public UserDTO createUser(UserDTO userRequestDTO, MultipartFile file) throws IOException {
         Meets meets = new Meets();
         meets.setQuantity(5);
         meets.setReleaseDate(LocalDateTime.now());
@@ -49,6 +54,7 @@ public class UserService {
         user.setOrientationEnum(userRequestDTO.getOrientationEnum());
         user.setRecordStatus(RecordStatusEnum.A);
         user.setMeets(savedMeets);
+        user.setProfilePicture(fileStorageService.upload(file));
 
         User savedUser = userRepository.save(user);
 

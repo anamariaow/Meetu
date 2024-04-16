@@ -5,7 +5,9 @@ import com.example.meetuteam2.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +19,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/createuser")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok().body(userService.createUser(userDTO));
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO,
+                                              @RequestParam MultipartFile file) throws IOException {
+        return ResponseEntity.ok().body(userService.createUser(userDTO, file));
     }
 
     @GetMapping("/allusers")

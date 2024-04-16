@@ -18,6 +18,12 @@ public class FileStorageService {
     @Value("${fileDirectory}")
     private String directory;
 
+    /**
+     * questo metodo fa upload di un file immagine da usare come immagine del profilo
+     * @param file
+     * @return una stringa, ovvero il path del file in locale (per ora)
+     * @throws IOException
+     */
     public String upload(MultipartFile file) throws IOException {
         //prendo il nome del file
         String fileString = file.getOriginalFilename();
