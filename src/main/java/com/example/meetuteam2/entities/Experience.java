@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,28 +33,31 @@ public class Experience {
     @Column(nullable = false)
     private Integer experienceValue;
     @JsonIgnore
-    @ManyToMany(mappedBy = "experienceList")
-    private List<User> user;
+    @ManyToMany
+    @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "experience_id"))
+    private List<User> user = new ArrayList<>();
     @JsonIgnore
-    @OneToMany(mappedBy = "experience")
-    private List<Booking> booking;
+    @ManyToMany
+    @JoinTable(name = "user_booking", joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "experience_id"))
+    private List<Booking> booking = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @NotNull
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
-    public Experience(Long id, String name, String description, Double price, List<ExperienceEnum> typeExperienceEnumList, Integer experienceValue,
-                       RecordStatusEnum recordStatus, List<User> user, List<Booking> booking) {
+    public Experience(Long id, String name, String description, Double price, List<ExperienceEnum> typeExperienceEnumList, Integer experienceValue, List<User> user, List<Booking> booking, RecordStatusEnum recordStatus) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.typeExperienceEnumList = typeExperienceEnumList;
         this.experienceValue = experienceValue;
-        this.recordStatus = recordStatus;
         this.user = user;
         this.booking = booking;
+        this.recordStatus = recordStatus;
     }
 
     public Experience() {
@@ -95,8 +99,8 @@ public class Experience {
         return typeExperienceEnumList;
     }
 
-    public void setTypeExperienceEnumList(List<ExperienceEnum> typeExperience) {
-        this.typeExperienceEnumList = typeExperience;
+    public void setTypeExperienceEnumList(List<ExperienceEnum> typeExperienceEnumList) {
+        this.typeExperienceEnumList = typeExperienceEnumList;
     }
 
     public Integer getExperienceValue() {
@@ -105,14 +109,6 @@ public class Experience {
 
     public void setExperienceValue(Integer experienceValue) {
         this.experienceValue = experienceValue;
-    }
-
-    public RecordStatusEnum getRecordStatus() {
-        return recordStatus;
-    }
-
-    public void setRecordStatus(RecordStatusEnum recordStatus) {
-        this.recordStatus = recordStatus;
     }
 
     public List<User> getUser() {
@@ -130,4 +126,13 @@ public class Experience {
     public void setBooking(List<Booking> booking) {
         this.booking = booking;
     }
+
+    public RecordStatusEnum getRecordStatus() {
+        return recordStatus;
+    }
+
+    public void setRecordStatus(RecordStatusEnum recordStatus) {
+        this.recordStatus = recordStatus;
+    }
 }
+

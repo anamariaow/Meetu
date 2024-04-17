@@ -6,7 +6,9 @@ import com.example.meetuteam2.entities.Booking;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.Experience;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.example.meetuteam2.repositories.BookingRepository;
 import com.example.meetuteam2.repositories.ExperienceRepository;
+import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,10 @@ import java.util.Optional;
 public class ExperienceService {
     @Autowired
     private ExperienceRepository experienceRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
     /**
      * questo metodo crea una nuova Experience
      * @param experienceDTO
