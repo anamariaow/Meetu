@@ -1,11 +1,16 @@
 package com.example.meetuteam2.services;
 
+import com.example.meetuteam2.DTO.ReviewDTO;
 import com.example.meetuteam2.entities.Review;
+import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
 import com.example.meetuteam2.repositories.ReviewRepository;
+import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,72 +18,135 @@ import java.util.Optional;
 public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private UserRepository userRepository;
     /**
-     * questo metodo crea una nuova Review
-     * @param review
-     * @return Review inserito
+     * questo metodo richiede una ReviewDTO, la trasforma in Review Entity per poi salvarla.
+     * crea e poi ritorna una ReviewDTO come response utilizzando i dati della Review Entity appena salvata,
+     * @param reviewRequestDTO
+     * @return la ReviewDTO creata
      * @author AT
      */
-    public Review createReview(Review review){
-        Review savedReview = reviewRepository.save(review);
-        return savedReview;
-    }
-    /**
-     * questo metodo ritorna la lista delle Review attive
-     * @return lista delle Review attive
-     * @author AT
-     */
-    public List<Review> getActiveReviewList(){
-        List<Review> reviewsList = reviewRepository.findAllActiveReview();
-        return reviewsList;
-    }
-    /**
-     * questo metodo recupera una Review partendo dal suo id
-     * @param id
-     * @return la Review trovata (se presente) oppure ritorna un Optional vuoto
-     * @author AT
-     */
-    public Optional<Review> getReviewById(Long id){
-        Optional<Review> reviewOptional = reviewRepository.findById(id);
-        if(reviewOptional.isPresent()){
-            return reviewOptional;
+    public Optional<ReviewDTO> createReview(Long userId,ReviewDTO reviewRequestDTO){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if(userOptional.isPresent()) {
+            Review review = new Review();
+            review.setGrade(reviewRequestDTO.getGrade());
+            review.setText(reviewRequestDTO.getText());
+            review.setDateOfReview(LocalDate.now());
+            review.setUser(userOptional.get());
+            review.setRecordStatus(RecordStatusEnum.A);
+
+            Review savedReview = reviewRepository.save(review);
+
+            ReviewDTO reviewResponseDTO = new ReviewDTO();
+
+            reviewResponseDTO.setId(savedReview.getId());
+            reviewResponseDTO.setText(savedReview.getText());
+            reviewResponseDTO.setGrade(savedReview.getGrade());
+            reviewResponseDTO.setDateOfReview(savedReview.getDateOfReview());
+
+            return Optional.of(reviewResponseDTO);
         }else {
             return Optional.empty();
         }
     }
     /**
-     * questo metodo aggiorna i field selezionati di un User, recuperandolo attraverso l'id
-     * @param id
-     * @param review
-     * @return la Review aggiornata (se presente) oppure ritorna un Optional vuoto
+     * questo metodo richiede la lista delle Review attive
+     * crea una lista di ReviewDTO
+     * cicla per inserire all'interno della lista le reviewDTO utilizzando gli oggetti presenti
+     * nella lista di Review richiesta.
+     * @return lista delle ReviewDTO attive
      * @author AT
      */
-    public Optional<Review> updateReview(Long id,Review review){
-        Optional<Review> reviewOptional = getReviewById(id);
+    public List<ReviewDTO> getActiveReviewList(){
+        List<Review> reviewsList = reviewRepository.findAllActiveReview();
+        List<ReviewDTO> reviewDTOList = new ArrayList<>();
+        for(Review review : reviewsList){
+            ReviewDTO reviewResponseDTO = new ReviewDTO();
+
+            reviewResponseDTO.setId(review.getId());
+            reviewResponseDTO.setText(review.getText());
+            reviewResponseDTO.setGrade(review.getGrade());
+            reviewResponseDTO.setDateOfReview(review.getDateOfReview());
+
+            reviewDTOList.add(reviewResponseDTO);
+        }
+        return reviewDTOList;
+    }
+    /**
+     * questo metodo recupera una Review partendo dal suo id, se presente
+     * crea e ritorna una Review DTO e gli assegna i parametri della Review recuperata.
+     * @param id
+     * @return la ReviewDTO con i dati della Review recuperata
+     * @author AT
+     */
+    public Optional<ReviewDTO> getReviewById(Long id){
+        Optional<Review> reviewOptional = reviewRepository.findById(id);
         if(reviewOptional.isPresent()){
-            reviewOptional.get().setGrade(review.getGrade());
-            reviewOptional.get().setText(review.getText());
-            reviewOptional.get().setDateOfReview(review.getDateOfReview());
-            reviewOptional.get().setUser(review.getUser());
-            reviewOptional.get().setRecordStatus(review.getRecordStatus());
+            ReviewDTO reviewResponseDTO = new ReviewDTO();
+
+            reviewResponseDTO.setId(reviewOptional.get().getId());
+            reviewResponseDTO.setText(reviewOptional.get().getText());
+            reviewResponseDTO.setGrade(reviewOptional.get().getGrade());
+            reviewResponseDTO.setDateOfReview(reviewOptional.get().getDateOfReview());
+
+            return Optional.of(reviewResponseDTO);
+        }else {
+            return Optional.empty();
+        }
+    }
+    /**
+     * questo metodo aggiorna i field selezionati di una Review, recuperandolo attraverso l'id
+     * crea e ritorna una ReviewDTO con i dati della Review aggiornata
+     * @param id
+     * @param reviewDTO
+     * @return la ReviewDTO aggiornata (se presente) oppure ritorna un Optional vuoto
+     * @author AT
+     */
+    public Optional<ReviewDTO> updateReview(Long id,ReviewDTO reviewDTO){
+        Optional<Review> reviewOptional = reviewRepository.findById(id);
+        if(reviewOptional.isPresent()){
+            reviewOptional.get().setGrade(reviewDTO.getGrade());
+            reviewOptional.get().setText(reviewDTO.getText());
+            reviewOptional.get().setDateOfReview(reviewDTO.getDateOfReview());
+
             Review savedReview = reviewRepository.save(reviewOptional.get());
-            return Optional.of(savedReview);
+
+            ReviewDTO reviewResponseDTO = new ReviewDTO();
+
+            reviewResponseDTO.setId(savedReview.getId());
+            reviewResponseDTO.setText(savedReview.getText());
+            reviewResponseDTO.setGrade(savedReview.getGrade());
+            reviewResponseDTO.setDateOfReview(savedReview.getDateOfReview());
+
+            return Optional.of(reviewResponseDTO);
         }else {
             return Optional.empty();
         }
     }
     /**
      * questo metodo aggiorna lo status di una Review in deleted, recuperandolo attraverso l'id
+     * crea e ritorna una ReviewDTO con i medesimi dati della Review aggiornata
      * @param id
-     * @return la Review aggiornata (se presente) oppure ritorna un Optional vuoto
+     * @return la ReviewDTO aggiornata (se presente) oppure ritorna un Optional vuoto
      * @author AT
      */
-    public Optional<Review> deleteReviewRecordStatus(Long id){
-        Optional<Review> reviewOptional = getReviewById(id);
+    public Optional<ReviewDTO> deleteReviewRecordStatus(Long id){
+        Optional<Review> reviewOptional = reviewRepository.findById(id);
         if(reviewOptional.isPresent()){
             reviewOptional.get().setRecordStatus(RecordStatusEnum.D);
+
             Review savedReview = reviewRepository.save(reviewOptional.get());
-            return Optional.of(savedReview);
+
+            ReviewDTO reviewResponseDTO = new ReviewDTO();
+
+            reviewResponseDTO.setId(savedReview.getId());
+            reviewResponseDTO.setText(savedReview.getText());
+            reviewResponseDTO.setGrade(savedReview.getGrade());
+            reviewResponseDTO.setDateOfReview(savedReview.getDateOfReview());
+
+            return Optional.of(reviewResponseDTO);
         }else {
             return Optional.empty();
         }

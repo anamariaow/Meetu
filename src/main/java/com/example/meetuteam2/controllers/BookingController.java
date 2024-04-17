@@ -1,6 +1,5 @@
 package com.example.meetuteam2.controllers;
-import com.example.meetuteam2.entities.Booking;
-import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.example.meetuteam2.DTO.BookingDTO;
 import com.example.meetuteam2.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +14,25 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+
     @PostMapping("/createbooking")
-    public ResponseEntity<Booking> addBooking(@RequestBody Booking booking) {
-        return ResponseEntity.ok(bookingService.addBooking(booking));
+    public ResponseEntity<BookingDTO> addBooking(@PathVariable(name = "userId") Long userId, @PathVariable(name = "experienceId") Long experienceId, @RequestBody BookingDTO bookingDTO) {
+        Optional<BookingDTO> optionalBookingDTO = bookingService.addBooking(userId, experienceId, bookingDTO);
+        if (optionalBookingDTO.isPresent()) {
+            return ResponseEntity.ok().body(optionalBookingDTO.get());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/getbookings")
-    public ResponseEntity<List<Booking>> findAllBooking() {
+    public ResponseEntity<List<BookingDTO>> findAllBooking() {
         return ResponseEntity.ok(bookingService.bookingList());
     }
 
     @GetMapping("/findbooking/{id}")
-    public ResponseEntity<Optional<Booking>> findByIdBooking(@RequestParam Long id) {
-        Optional<Booking> bookingOptional = bookingService.findBookingById(id);
+    public ResponseEntity<Optional<BookingDTO>> findByIdBooking(@RequestParam Long id) {
+        Optional<BookingDTO> bookingOptional = bookingService.findBookingById(id);
         if (bookingOptional.isPresent()) {
             return ResponseEntity.ok(bookingOptional);
         } else {
@@ -36,8 +41,8 @@ public class BookingController {
     }
 
     @PutMapping("/updatebooking")
-    public ResponseEntity<Booking> modifyBooking(@PathVariable Long id, @RequestBody Booking booking) {
-        Optional<Booking> bookingOptional = bookingService.updateBooking(booking,id);
+    public ResponseEntity<BookingDTO> modifyBooking(@PathVariable Long id, @RequestBody BookingDTO bookingDTO) {
+        Optional<BookingDTO> bookingOptional = bookingService.updateBooking(bookingDTO, id);
         if (bookingOptional.isPresent()) {
             return ResponseEntity.ok(bookingOptional.get());
         } else {
@@ -45,9 +50,9 @@ public class BookingController {
         }
     }
 
-    @PutMapping("/updatebookingstatus")
-    public ResponseEntity<Booking> updateBookingStatus(@PathVariable Long id, @RequestBody RecordStatusEnum recordStatusEnum) {
-        Optional<Booking> bookingOptional= bookingService.updateBookingRecordStatus(id, recordStatusEnum);
+    @PutMapping("/deletebookingstatus")
+    public ResponseEntity<BookingDTO> deleteBookingRecordStatus(@PathVariable Long id) {
+        Optional<BookingDTO> bookingOptional= bookingService.deleteBookingRecordStatus(id);
         if (bookingOptional.isPresent()) {
             return ResponseEntity.ok(bookingOptional.get());
         } else {
@@ -55,13 +60,4 @@ public class BookingController {
         }
     }
 
-    @PutMapping("/deletebooking")
-    public ResponseEntity<Booking> deleteBooking(Long id) {
-        Optional<Booking> bookingOptional = bookingService.deleteBooking(id);
-        if (bookingOptional.isPresent()) {
-            return ResponseEntity.ok(bookingOptional.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

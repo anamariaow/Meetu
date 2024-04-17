@@ -1,35 +1,72 @@
 package com.example.meetuteam2.services;
 
+import com.example.meetuteam2.DTO.BookingDTO;
+import com.example.meetuteam2.DTO.ExperienceDTO;
+import com.example.meetuteam2.entities.Booking;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.Experience;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.example.meetuteam2.repositories.BookingRepository;
 import com.example.meetuteam2.repositories.ExperienceRepository;
+import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class ExperienceService {
     @Autowired
     private ExperienceRepository experienceRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BookingRepository bookingRepository;
     /**
      * questo metodo crea una nuova Experience
-     * @param experience
+     * @param experienceDTO
      * @return Experience fatta
      * @author SS
      */
-    public Experience addExperience(Experience experience){
-        return experienceRepository.save(experience);
+    public ExperienceDTO addExperience(ExperienceDTO experienceDTO){
+        Experience experience = new Experience();
+        experience.setName(experience.getName());
+        experience.setDescription(experience.getDescription());
+        experience.setPrice(experience.getPrice());
+
+        Experience savedExperience = experienceRepository.save(experience);
+
+        ExperienceDTO experienceResponseDTO = new ExperienceDTO();
+
+        experienceResponseDTO.setId(savedExperience.getId());
+        experienceResponseDTO.setName(savedExperience.getName());
+        experienceResponseDTO.setDescription(savedExperience.getDescription());
+        experienceResponseDTO.setPrice(savedExperience.getPrice());
+        return experienceResponseDTO;
     }
 
 
     /**
-     * questo metodo ritorna la lista degli Booking attivi
-     * @return lista delle Experience attivi
+     * questo metodo ritorna la lista delle Experiences attive
+     * @return lista delle Experience attive
      */
-    public List<Experience> bookingList(){
-        return experienceRepository.findAll();
+    public List<ExperienceDTO> experienceList(){
+        List<Experience> experienceList = experienceRepository.findAllActiveExperiences();
+        List<ExperienceDTO> experienceDTOS = new ArrayList<>();
+        for(Experience experience : experienceList){
+
+            ExperienceDTO experienceResponseDTO = new ExperienceDTO();
+
+            experienceResponseDTO.setId(experience.getId());
+            experienceResponseDTO.setName(experience.getName());
+            experienceResponseDTO.setDescription(experience.getDescription());
+            experienceResponseDTO.setPrice(experience.getPrice());
+
+            experienceDTOS.add(experienceResponseDTO);
+        }
+
+        return experienceDTOS;
     }
 
 
@@ -39,48 +76,50 @@ public class ExperienceService {
      * @return Experience trovata (se presente) oppure non ritorna niente.
      */
 
-    public Optional<Experience> findExperienceById(Long id){
-        return experienceRepository.findById(id);
-    }
-    /**
-     * questo metodo ti permette aggiornare i field selezionati di un Booking, recuperandolo attraverso l'id
-     * @param id
-     * @param experience
-     * @return Experience aggiornato (se presente) oppure non ritorna niente
-     */
-    public Optional<Experience> updateExperience(Experience experience,Long id){
-        Optional<Experience> optionalExperience= experienceRepository.findById(id);
-        if (optionalExperience.isPresent()){
-            optionalExperience.get().setName(experience.getName());
-            optionalExperience.get().setDescription(experience.getDescription());
-            optionalExperience.get().setPrice(experience.getPrice());
-            optionalExperience.get().setTypeExperienceEnumList(experience.getTypeExperienceEnumList());
-            optionalExperience.get().setExperienceValue(experience.getExperienceValue());
-            optionalExperience.get().setUser(experience.getUser());
-            optionalExperience.get().setBooking(experience.getBooking());
-            optionalExperience.get().setRecordStatus(experience.getRecordStatus());
-            experienceRepository.save(optionalExperience.get());
-            return optionalExperience;
-        }else {
+    public Optional<ExperienceDTO> findExperienceById(Long id){
+        Optional<Experience> optionalExperience = experienceRepository.findById(id);
+        if(optionalExperience.isPresent()){
+
+            ExperienceDTO experienceResponseDTO = new ExperienceDTO();
+
+            experienceResponseDTO.setId(optionalExperience.get().getId());
+            experienceResponseDTO.setName(optionalExperience.get().getName());
+            experienceResponseDTO.setDescription(optionalExperience.get().getDescription());
+            experienceResponseDTO.setPrice(optionalExperience.get().getPrice());
+            return Optional.of(experienceResponseDTO);
+
+        } else{
             return Optional.empty();
         }
 
     }
     /**
-     * questo metodo recupera un Experience  attraverso l'id e ne aggiorna lo status
+     * questo metodo ti permette aggiornare i field selezionati di un Experience, recuperandolo attraverso l'id
      * @param id
-     * @param recordStatusEnum
-     * @return l' Experience con stato aggiornato, se presente, oppure non ritorna niente.
+     * @param experienceDTO
+     * @return Experience aggiornato (se presente) oppure non ritorna niente
      */
-    public Optional<Experience> updateExperienceRecordStatus(Long id, RecordStatusEnum recordStatusEnum){
-        Optional<Experience> experienceOptional = findExperienceById(id);
-        if(experienceOptional.isPresent()){
-            experienceOptional.get().setRecordStatus(recordStatusEnum);
-            Experience experience = experienceRepository.save(experienceOptional.get());
-            return Optional.of(experience);
+    public Optional<ExperienceDTO> updateExperience(ExperienceDTO experienceDTO,Long id){
+        Optional<Experience> optionalExperience= experienceRepository.findById(id);
+        if (optionalExperience.isPresent()){
+            optionalExperience.get().setName(experienceDTO.getName());
+            optionalExperience.get().setDescription(experienceDTO.getDescription());
+            optionalExperience.get().setPrice(experienceDTO.getPrice());
+
+            Experience savedExperience =experienceRepository.save(optionalExperience.get());
+
+            ExperienceDTO experienceResponseDTO = new ExperienceDTO();
+
+            experienceResponseDTO.setId(savedExperience.getId());
+            experienceResponseDTO.setName(savedExperience.getName());
+            experienceResponseDTO.setDescription(savedExperience.getDescription());
+            experienceResponseDTO.setPrice(savedExperience.getPrice());
+
+            return Optional.of(experienceResponseDTO);
         }else {
             return Optional.empty();
         }
+
     }
 
     /**
@@ -88,13 +127,21 @@ public class ExperienceService {
      * @param id
      * @return Experience appena eliminato, se presente, oppure non ritorna niente.
      */
-    public Optional<Experience> deleteExperience(Long id){
-        Optional<Experience> optionalExperience = experienceRepository.findById(id);
-        if(optionalExperience.isPresent()){
-            experienceRepository.delete(optionalExperience.get());
-        }else{
+    public Optional<ExperienceDTO> deleteExperience(Long id){
+        Optional<Experience> experienceOptional = experienceRepository.findById(id);
+        if(experienceOptional.isPresent()){
+            experienceOptional.get().setRecordStatus(RecordStatusEnum.D);
+            Experience experience = experienceRepository.save(experienceOptional.get());
+            ExperienceDTO experienceResponseDto= new ExperienceDTO();
+
+            experienceResponseDto.setId(experience.getId());
+            experienceResponseDto.setName(experience.getName());
+            experienceResponseDto.setDescription(experience.getDescription());
+            experienceResponseDto.setPrice(experience.getPrice());
+
+            return Optional.of(experienceResponseDto);
+        }else {
             return Optional.empty();
         }
-        return optionalExperience;
     }
 }

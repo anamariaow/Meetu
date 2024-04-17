@@ -10,3 +10,4 @@ spring:
     show_sql: true
     hibernate:
       ddl-auto: create-drop
+fileDirectory: C:\Users\Utente\OneDrive\Documenti\Meetu@FileStorage
