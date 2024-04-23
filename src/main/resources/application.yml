@@ -10,4 +10,7 @@ spring:
     show_sql: true
     hibernate:
       ddl-auto: create-drop
-fileDirectory: C:\Users\Utente\OneDrive\Documenti\Meetu@FileStorage
+#local directory for storage
+fileDirectory: C:\Meetu@FileStorage
+#key for firebase storage
+fireBaseKey: C:\file-storage-meetuat.json

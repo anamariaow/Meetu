@@ -14,15 +14,25 @@ import java.io.IOException;
 public class FileController {
     @Autowired
 private FileStorageService fileStorageService;
-    @PostMapping("/upload")
+    @PostMapping("/local/upload")
     public ResponseEntity<String> uploadFile(@RequestParam MultipartFile file) throws IOException {
         return ResponseEntity.ok(fileStorageService.upload(file));
     }
 
-    @GetMapping("/download")
-    public @ResponseBody ResponseEntity<byte[]> download(
-            @RequestParam String fileName,
-            HttpServletResponse response) throws IOException {
+    @GetMapping("/local/download")
+    public @ResponseBody ResponseEntity<byte[]> download(@RequestParam String fileName,
+                                                         HttpServletResponse response) throws IOException {
         return ResponseEntity.ok(fileStorageService.download(fileName,response));
+    }
+
+    @PostMapping("/firebase/upload")
+    public String uploadFireBase(@RequestParam("file") MultipartFile multipartFile) {
+        return fileStorageService.uploadFirebase(multipartFile);
+    }
+
+    @GetMapping("/firebase/download")
+    public ResponseEntity<byte[]> downloadFireBase(@RequestParam String file,
+                                   HttpServletResponse response) throws IOException {
+        return ResponseEntity.ok(fileStorageService.downloadFireBase(file,response));
     }
 }
