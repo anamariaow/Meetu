@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-@Tag(name = "User", description = "Controller delle APIs per Booking")
+@Tag(name = "User", description = "Controller delle APIs per Utente")
 @RestController
 @RequestMapping("/users")
 public class UserController {
