@@ -1,6 +1,7 @@
 package com.example.meetuteam2.services;
 
-import com.example.meetuteam2.DTO.UserDTO;
+import com.example.meetuteam2.DTO.UserRequestDTO;
+import com.example.meetuteam2.DTO.UserResponseDTO;
 import com.example.meetuteam2.entities.Meets;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
@@ -31,11 +32,10 @@ public class UserService {
      * crea e poi ritorna un UserDTO come response utilizzando i dati dell'User Entity appena salvato
      *
      * @param userRequestDTO
-     * @param file
      * @return UserDTO creato.
      * @author ET
      */
-    public UserDTO createUser(UserDTO userRequestDTO, MultipartFile file) throws IOException {
+    public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
         Meets meets = new Meets();
         meets.setQuantity(5);
         meets.setReleaseDate(LocalDateTime.now());
@@ -54,16 +54,14 @@ public class UserService {
         user.setOrientationEnum(userRequestDTO.getOrientationEnum());
         user.setRecordStatus(RecordStatusEnum.A);
         user.setMeets(savedMeets);
-        user.setProfilePicture(fileStorageService.upload(file));
 
         User savedUser = userRepository.save(user);
 
-        UserDTO userResponseDTO = new UserDTO();
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
 
         userResponseDTO.setId(savedUser.getId());
         userResponseDTO.setName(savedUser.getName());
         userResponseDTO.setEmail(savedUser.getEmail());
-        userResponseDTO.setPassword(savedUser.getPassword());
         userResponseDTO.setMoreInfo(savedUser.getMoreInfo());
         userResponseDTO.setInterestEnumList(savedUser.getInterestEnumList());
         userResponseDTO.setGenderEnum(savedUser.getGenderEnum());
@@ -81,25 +79,24 @@ public class UserService {
      * @return lista degli UserDTO attivi
      * @author ET
      */
-    public List<UserDTO> getAllActiveUsers() {
+    public List<UserResponseDTO> getAllActiveUsers() {
         List<User> userList = userRepository.findAllActiveUsers();
-        List<UserDTO> userDTOList = new ArrayList<>();
+        List<UserResponseDTO> userResponseDTOList = new ArrayList<>();
         for (User user : userList) {
-            UserDTO userResponseDTO = new UserDTO();
+            UserResponseDTO userResponseDTO = new UserResponseDTO();
 
             userResponseDTO.setId(user.getId());
             userResponseDTO.setName(user.getName());
             userResponseDTO.setEmail(user.getEmail());
-            userResponseDTO.setPassword(user.getPassword());
             userResponseDTO.setMoreInfo(user.getMoreInfo());
             userResponseDTO.setInterestEnumList(user.getInterestEnumList());
             userResponseDTO.setGenderEnum(user.getGenderEnum());
             userResponseDTO.setZodiacSignEnum(user.getZodiacSignEnum());
             userResponseDTO.setOrientationEnum(user.getOrientationEnum());
 
-            userDTOList.add(userResponseDTO);
+            userResponseDTOList.add(userResponseDTO);
         }
-        return userDTOList;
+        return userResponseDTOList;
     }
 
     /**
@@ -110,15 +107,14 @@ public class UserService {
      * @return l'UserDTO con i dati dell'User recuperato.
      * @author ET
      */
-    public Optional<UserDTO> getUserById(Long id) {
+    public Optional<UserResponseDTO> getUserById(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            UserDTO userResponseDTO = new UserDTO();
+            UserResponseDTO userResponseDTO = new UserResponseDTO();
 
             userResponseDTO.setId(userOptional.get().getId());
             userResponseDTO.setName(userOptional.get().getName());
             userResponseDTO.setEmail(userOptional.get().getEmail());
-            userResponseDTO.setPassword(userOptional.get().getPassword());
             userResponseDTO.setMoreInfo(userOptional.get().getMoreInfo());
             userResponseDTO.setInterestEnumList(userOptional.get().getInterestEnumList());
             userResponseDTO.setGenderEnum(userOptional.get().getGenderEnum());
@@ -136,30 +132,28 @@ public class UserService {
      * crea e ritorna un UserDTO con i dati dell'User aggiornato
      *
      * @param id
-     * @param userDTO
+     * @param userRequestDTO
      * @return l'UserDTO aggiornato (se presente) oppure ritorna Optional.empty
      * @author ET
      */
-    public Optional<UserDTO> updateUserById(Long id, UserDTO userDTO) {
+    public Optional<UserResponseDTO> updateUserById(Long id, UserRequestDTO userRequestDTO) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            userOptional.get().setName(userDTO.getName());
-            userOptional.get().setEmail(userDTO.getEmail());
-            userOptional.get().setPassword(userDTO.getPassword());
-            userOptional.get().setMoreInfo(userDTO.getMoreInfo());
-            userOptional.get().setInterestEnumList(userDTO.getInterestEnumList());
-            userOptional.get().setGenderEnum(userDTO.getGenderEnum());
-            userOptional.get().setZodiacSignEnum(userDTO.getZodiacSignEnum());
-            userOptional.get().setOrientationEnum(userDTO.getOrientationEnum());
+            userOptional.get().setName(userRequestDTO.getName());
+            userOptional.get().setEmail(userRequestDTO.getEmail());
+            userOptional.get().setMoreInfo(userRequestDTO.getMoreInfo());
+            userOptional.get().setInterestEnumList(userRequestDTO.getInterestEnumList());
+            userOptional.get().setGenderEnum(userRequestDTO.getGenderEnum());
+            userOptional.get().setZodiacSignEnum(userRequestDTO.getZodiacSignEnum());
+            userOptional.get().setOrientationEnum(userRequestDTO.getOrientationEnum());
 
             User savedUser = userRepository.save(userOptional.get());
 
-            UserDTO userResponseDTO = new UserDTO();
+            UserResponseDTO userResponseDTO = new UserResponseDTO();
 
             userResponseDTO.setId((savedUser.getId()));
             userResponseDTO.setName(savedUser.getName());
             userResponseDTO.setEmail(savedUser.getEmail());
-            userResponseDTO.setPassword(savedUser.getPassword());
             userResponseDTO.setMoreInfo(savedUser.getMoreInfo());
             userResponseDTO.setInterestEnumList(savedUser.getInterestEnumList());
             userResponseDTO.setGenderEnum(savedUser.getGenderEnum());
@@ -180,19 +174,18 @@ public class UserService {
      * @return l'UserDTO con stato aggiornato (se presente) oppure ritorna un Optional vuoto.
      * @author ET
      */
-    public Optional<UserDTO> updateUserRecordStatus(Long id) {
+    public Optional<UserResponseDTO> updateUserRecordStatus(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             userOptional.get().setRecordStatus(RecordStatusEnum.D);
 
             User savedUser = userRepository.save(userOptional.get());
 
-            UserDTO userResponseDTO = new UserDTO();
+            UserResponseDTO userResponseDTO = new UserResponseDTO();
 
             userResponseDTO.setId(savedUser.getId());
             userResponseDTO.setName(savedUser.getName());
             userResponseDTO.setEmail(savedUser.getEmail());
-            userResponseDTO.setPassword(savedUser.getPassword());
             userResponseDTO.setMoreInfo(savedUser.getMoreInfo());
             userResponseDTO.setInterestEnumList(savedUser.getInterestEnumList());
             userResponseDTO.setGenderEnum(savedUser.getGenderEnum());
@@ -200,6 +193,17 @@ public class UserService {
             userResponseDTO.setOrientationEnum(savedUser.getOrientationEnum());
 
             return Optional.of(userResponseDTO);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<String> addProfilePicture(Long id, MultipartFile picture) throws IOException {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            userOptional.get().setProfilePicture(fileStorageService.upload(picture));
+            userRepository.save(userOptional.get());
+            return Optional.of("profile picture succesfully added!");
         } else {
             return Optional.empty();
         }

@@ -40,7 +40,7 @@ public class BookingController {
         }
     }
 
-    @PutMapping("/updatebooking")
+    @PutMapping("/updatebooking/{id}")
     public ResponseEntity<BookingDTO> modifyBooking(@PathVariable Long id, @RequestBody BookingDTO bookingDTO) {
         Optional<BookingDTO> bookingOptional = bookingService.updateBooking(bookingDTO, id);
         if (bookingOptional.isPresent()) {
@@ -50,7 +50,7 @@ public class BookingController {
         }
     }
 
-    @PutMapping("/deletebookingstatus")
+    @PutMapping("/deletebookingstatus/{id}")
     public ResponseEntity<BookingDTO> deleteBookingRecordStatus(@PathVariable Long id) {
         Optional<BookingDTO> bookingOptional= bookingService.deleteBookingRecordStatus(id);
         if (bookingOptional.isPresent()) {

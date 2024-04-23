@@ -7,7 +7,7 @@ import com.example.meetuteam2.entities.enums.ZodiacSignEnum;
 
 import java.util.List;
 
-public class UserDTO {
+public class UserRequestDTO {
     private Long id;
     private String name;
     private String email;
@@ -18,10 +18,10 @@ public class UserDTO {
     private ZodiacSignEnum zodiacSignEnum;
     private OrientationEnum orientationEnum;
 
-    public UserDTO(Long id, String name, String email, String password,
-                   String moreInfo, List<InterestEnum> interestEnumList,
-                   GenderEnum genderEnum, ZodiacSignEnum zodiacSignEnum,
-                   OrientationEnum orientationEnum) {
+    public UserRequestDTO(Long id, String name, String email, String password,
+                          String moreInfo, List<InterestEnum> interestEnumList,
+                          GenderEnum genderEnum, ZodiacSignEnum zodiacSignEnum,
+                          OrientationEnum orientationEnum) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -33,7 +33,7 @@ public class UserDTO {
         this.orientationEnum = orientationEnum;
     }
 
-    public UserDTO() {
+    public UserRequestDTO() {
     }
 
     public Long getId() {

@@ -1,6 +1,7 @@
 package com.example.meetuteam2.controllers;
 
-import com.example.meetuteam2.DTO.UserDTO;
+import com.example.meetuteam2.DTO.UserRequestDTO;
+import com.example.meetuteam2.DTO.UserResponseDTO;
 import com.example.meetuteam2.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +20,18 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/createuser")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO,
-                                              @RequestParam MultipartFile file) throws IOException {
-        return ResponseEntity.ok().body(userService.createUser(userDTO, file));
+    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserRequestDTO userRequestDTO) {
+        return ResponseEntity.ok().body(userService.createUser(userRequestDTO));
     }
 
     @GetMapping("/allusers")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity.ok().body(userService.getAllActiveUsers());
     }
 
     @GetMapping("/finduser/{id}")
-    public ResponseEntity<Optional<UserDTO>> getUserById(@RequestParam Long id) {
-        Optional<UserDTO> userOptional = userService.getUserById(id);
+    public ResponseEntity<Optional<UserResponseDTO>> getUserById(@RequestParam Long id) {
+        Optional<UserResponseDTO> userOptional = userService.getUserById(id);
         if(userOptional.isPresent()) {
             return ResponseEntity.ok(userOptional);
         } else {
@@ -40,9 +40,9 @@ public class UserController {
     }
 
     @PutMapping("/updateuserbyid/{id}")
-    public ResponseEntity<UserDTO> updateUserById(@PathVariable Long id,
-                                               @RequestBody UserDTO userDTO) {
-        Optional<UserDTO> userOptional = userService.updateUserById(id, userDTO);
+    public ResponseEntity<UserResponseDTO> updateUserById(@PathVariable Long id,
+                                                          @RequestBody UserRequestDTO userRequestDTO) {
+        Optional<UserResponseDTO> userOptional = userService.updateUserById(id, userRequestDTO);
         if(userOptional.isPresent()) {
             return ResponseEntity.ok().body(userOptional.get());
         } else {
@@ -50,11 +50,22 @@ public class UserController {
         }
     }
 
-    @PutMapping("/deleteuser")
-    public ResponseEntity<UserDTO> deleteUser(@PathVariable Long id) {
-        Optional<UserDTO> userOptional = userService.updateUserRecordStatus(id);
+    @PutMapping("/deleteuser/{id}")
+    public ResponseEntity<UserResponseDTO> deleteUser(@PathVariable Long id) {
+        Optional<UserResponseDTO> userOptional = userService.updateUserRecordStatus(id);
         if (userOptional.isPresent()) {
             return ResponseEntity.ok(userOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/addprofilepicture/{id}")
+    public ResponseEntity<String> addProfilePicture(@PathVariable Long id,
+                                                    @RequestParam MultipartFile picture) throws IOException {
+        Optional<String> userOptional = userService.addProfilePicture(id, picture);
+        if(userOptional.isPresent()) {
+            return ResponseEntity.ok().body(userOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }
