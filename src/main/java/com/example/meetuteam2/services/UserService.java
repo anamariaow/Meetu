@@ -54,7 +54,7 @@ public class UserService {
         user.setOrientationEnum(userRequestDTO.getOrientationEnum());
         user.setRecordStatus(RecordStatusEnum.A);
         user.setMeets(savedMeets);
-        user.setProfilePicture(fileStorageService.upload(file));
+        user.setProfilePicture(fileStorageService.uploadFirebase(file));
 
         User savedUser = userRepository.save(user);
 
