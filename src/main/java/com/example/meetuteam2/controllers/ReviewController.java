@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "Review", description = "Controller delle APIs per Review")
+@Tag(name = "Review", description = "Controller delle APIs per le recensioni")
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @Operation(summary = "Crea e salva una nuova review")
+    @Operation(summary = "Crea e salva una nuova recensione")
     @PostMapping("/createreview/{userId}")
     public ResponseEntity<ReviewDTO> createReview(@PathVariable(name = "userId") Long userId,
                                                   @RequestParam Long experienceId,@RequestBody ReviewDTO reviewDTO) {
@@ -30,13 +30,13 @@ public class ReviewController {
         }
     }
 
-    @Operation(summary = "Mostra una lista di tutte le review")
+    @Operation(summary = "Mostra una lista di tutte le recensioni")
     @GetMapping("/getreviews")
     public ResponseEntity<List<ReviewDTO>> findAllReview() {
         return ResponseEntity.ok(reviewService.getActiveReviewList());
     }
 
-    @Operation(summary = "Trova una review tramite l'id")
+    @Operation(summary = "Trova una recensione tramite l'id")
     @GetMapping("/findreview/{id}")
     public ResponseEntity<ReviewDTO> findByIdReview(@RequestParam Long id) {
         Optional<ReviewDTO> reviewOptional = reviewService.getReviewById(id);
@@ -47,7 +47,7 @@ public class ReviewController {
         }
     }
 
-    @Operation(summary = "Aggiorna una review tramite l'id")
+    @Operation(summary = "Aggiorna una recensione tramite l'id")
     @PutMapping("/updatereview/{id}")
     public ResponseEntity<ReviewDTO> modifyReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
         Optional<ReviewDTO> reviewOptional = reviewService.updateReview(id, reviewDTO);
@@ -58,7 +58,7 @@ public class ReviewController {
         }
     }
 
-    @Operation(summary = "Elimina una review")
+    @Operation(summary = "Elimina una recensione")
     @PutMapping("/deletereview/{id}")
     public ResponseEntity<ReviewDTO> deleteReviewStatus(@PathVariable Long id) {
         Optional<ReviewDTO> reviewOptional = reviewService.deleteReviewRecordStatus(id);
