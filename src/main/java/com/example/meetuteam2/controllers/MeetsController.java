@@ -38,10 +38,10 @@ public class MeetsController {
 
     @Operation(summary = "Trova un meets tramite l'id")
     @GetMapping("/findmeets/{id}")
-    public ResponseEntity<Optional<MeetsDTO>> findByIdMeets(@RequestParam Long id) {
+    public ResponseEntity<MeetsDTO> findByIdMeets(@RequestParam Long id) {
         Optional<MeetsDTO> meetsOptional = meetsService.getMeetsById(id);
         if (meetsOptional.isPresent()) {
-            return ResponseEntity.ok(meetsOptional);
+            return ResponseEntity.ok(meetsOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

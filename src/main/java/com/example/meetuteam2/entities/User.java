@@ -46,20 +46,19 @@ public class User {
     @NotNull
     @Column(name = "orientation_list", nullable = false)
     private OrientationEnum orientationEnum;
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "experience_id"))
+
+    @OneToMany(mappedBy = "user")
     private List<Experience> experienceList = new ArrayList<>();
-    @JsonIgnore
+
     @OneToMany(mappedBy = "user")
     private List<Review> reviewList = new ArrayList<>();
-    @JsonIgnore
+
     @OneToOne
     private Meets meets;
-    @JsonIgnore
+
     @OneToMany(mappedBy = "user")
     private List<Booking> bookingList = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @NotNull
     @Column(name = "record_status", nullable = false, length = 1)

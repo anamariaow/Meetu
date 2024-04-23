@@ -20,8 +20,9 @@ public class ReviewController {
 
     @Operation(summary = "Crea e salva una nuova review")
     @PostMapping("/createreview/{userId}")
-    public ResponseEntity<ReviewDTO> createReview(@PathVariable(name = "userId") Long userId,@RequestBody ReviewDTO reviewDTO) {
-        Optional<ReviewDTO> reviewResponseOptional  = reviewService.createReview(userId,reviewDTO);
+    public ResponseEntity<ReviewDTO> createReview(@PathVariable(name = "userId") Long userId,
+                                                  @RequestParam Long experienceId,@RequestBody ReviewDTO reviewDTO) {
+        Optional<ReviewDTO> reviewResponseOptional  = reviewService.createReview(userId,experienceId,reviewDTO);
         if(reviewResponseOptional.isPresent()) {
             return ResponseEntity.ok().body(reviewResponseOptional.get());
         }else {
@@ -37,10 +38,10 @@ public class ReviewController {
 
     @Operation(summary = "Trova una review tramite l'id")
     @GetMapping("/findreview/{id}")
-    public ResponseEntity<Optional<ReviewDTO>> findByIdReview(@RequestParam Long id) {
+    public ResponseEntity<ReviewDTO> findByIdReview(@RequestParam Long id) {
         Optional<ReviewDTO> reviewOptional = reviewService.getReviewById(id);
         if (reviewOptional.isPresent()) {
-            return ResponseEntity.ok(reviewOptional);
+            return ResponseEntity.ok(reviewOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

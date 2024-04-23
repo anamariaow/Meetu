@@ -15,9 +15,15 @@ import java.util.Optional;
 public class ExperienceController {
     @Autowired
     private ExperienceService experienceService;
-    @PostMapping("/createexperience")
-    public ResponseEntity<ExperienceDTO> addExperience(@RequestBody ExperienceDTO experienceDTO) {
-        return ResponseEntity.ok(experienceService.addExperience(experienceDTO));
+
+    @PostMapping("/createexperience/{userId}")
+    public ResponseEntity<ExperienceDTO> addExperience(@PathVariable(name = "userId") Long userId,@RequestBody ExperienceDTO experienceDTO) {
+        Optional<ExperienceDTO> experienceOptional = experienceService.addExperience(userId,experienceDTO);
+        if (experienceOptional.isPresent()) {
+            return ResponseEntity.ok(experienceOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/getexperiences")
@@ -26,10 +32,10 @@ public class ExperienceController {
     }
 
     @GetMapping("/findexperience/{id}")
-    public ResponseEntity<Optional<ExperienceDTO>> findByIdBooking(@RequestParam Long id) {
+    public ResponseEntity<ExperienceDTO> findByIdBooking(@RequestParam Long id) {
         Optional<ExperienceDTO> experienceOptional = experienceService.findExperienceById(id);
         if (experienceOptional.isPresent()) {
-            return ResponseEntity.ok(experienceOptional);
+            return ResponseEntity.ok(experienceOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

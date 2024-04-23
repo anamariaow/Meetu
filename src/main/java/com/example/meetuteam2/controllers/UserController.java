@@ -35,10 +35,10 @@ public class UserController {
 
     @Operation(summary = "Trova un utente tramite l'id")
     @GetMapping("/finduser/{id}")
-    public ResponseEntity<Optional<UserResponseDTO>> getUserById(@RequestParam Long id) {
+    public ResponseEntity<UserResponseDTO> getUserById(@RequestParam Long id) {
         Optional<UserResponseDTO> userOptional = userService.getUserById(id);
         if(userOptional.isPresent()) {
-            return ResponseEntity.ok(userOptional);
+            return ResponseEntity.ok(userOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

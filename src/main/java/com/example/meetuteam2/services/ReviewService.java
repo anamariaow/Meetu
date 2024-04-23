@@ -1,9 +1,11 @@
 package com.example.meetuteam2.services;
 
 import com.example.meetuteam2.DTO.ReviewDTO;
+import com.example.meetuteam2.entities.Experience;
 import com.example.meetuteam2.entities.Review;
 import com.example.meetuteam2.entities.User;
 import com.example.meetuteam2.entities.enums.RecordStatusEnum;
+import com.example.meetuteam2.repositories.ExperienceRepository;
 import com.example.meetuteam2.repositories.ReviewRepository;
 import com.example.meetuteam2.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class ReviewService {
     private ReviewRepository reviewRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ExperienceRepository experienceRepository;
     /**
      * questo metodo richiede una ReviewDTO, la trasforma in Review Entity per poi salvarla.
      * crea e poi ritorna una ReviewDTO come response utilizzando i dati della Review Entity appena salvata,
@@ -27,14 +31,16 @@ public class ReviewService {
      * @return la ReviewDTO creata
      * @author AT
      */
-    public Optional<ReviewDTO> createReview(Long userId,ReviewDTO reviewRequestDTO){
+    public Optional<ReviewDTO> createReview(Long userId,Long experienceId,ReviewDTO reviewRequestDTO){
         Optional<User> userOptional = userRepository.findById(userId);
-        if(userOptional.isPresent()) {
+        Optional<Experience> experienceOptional = experienceRepository.findById(experienceId);
+        if(userOptional.isPresent() || experienceOptional.isPresent()) {
             Review review = new Review();
             review.setGrade(reviewRequestDTO.getGrade());
             review.setText(reviewRequestDTO.getText());
             review.setDateOfReview(LocalDate.now());
             review.setUser(userOptional.get());
+            review.setExperience(experienceOptional.get());
             review.setRecordStatus(RecordStatusEnum.A);
 
             Review savedReview = reviewRepository.save(review);
