@@ -15,8 +15,8 @@ public class BookingController {
     private BookingService bookingService;
 
 
-    @PostMapping("/createbooking")
-    public ResponseEntity<BookingDTO> addBooking(@PathVariable(name = "userId") Long userId, @PathVariable(name = "experienceId") Long experienceId, @RequestBody BookingDTO bookingDTO) {
+    @PostMapping("/createbooking/{userId}/")
+    public ResponseEntity<BookingDTO> addBooking(@PathVariable(name = "userId") Long userId, @RequestParam(name = "experienceId") Long experienceId, @RequestBody BookingDTO bookingDTO) {
         Optional<BookingDTO> optionalBookingDTO = bookingService.addBooking(userId, experienceId, bookingDTO);
         if (optionalBookingDTO.isPresent()) {
             return ResponseEntity.ok().body(optionalBookingDTO.get());
@@ -31,10 +31,10 @@ public class BookingController {
     }
 
     @GetMapping("/findbooking/{id}")
-    public ResponseEntity<Optional<BookingDTO>> findByIdBooking(@RequestParam Long id) {
+    public ResponseEntity<BookingDTO> findByIdBooking(@RequestParam Long id) {
         Optional<BookingDTO> bookingOptional = bookingService.findBookingById(id);
         if (bookingOptional.isPresent()) {
-            return ResponseEntity.ok(bookingOptional);
+            return ResponseEntity.ok(bookingOptional.get());
         } else {
             return ResponseEntity.notFound().build();
         }

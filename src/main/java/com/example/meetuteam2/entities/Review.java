@@ -23,16 +23,20 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "experience_id")
+    private Experience experience;
     @Enumerated(EnumType.STRING)
     @NotNull
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
-    public Review(Long id, Double grade, String text, LocalDate dateOfReview, RecordStatusEnum recordStatus, User user) {
+    public Review(Long id, Double grade, String text, LocalDate dateOfReview, RecordStatusEnum recordStatus, User user,Experience experience) {
         this.id = id;
         this.grade = grade;
         this.text = text;
         this.dateOfReview = dateOfReview;
+        this.experience = experience;
         this.recordStatus = recordStatus;
         this.user = user;
     }
@@ -86,5 +90,13 @@ public class Review {
 
     public void setRecordStatus(RecordStatusEnum recordStatus) {
         this.recordStatus = recordStatus;
+    }
+
+    public Experience getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Experience experience) {
+        this.experience = experience;
     }
 }

@@ -29,15 +29,11 @@ public class Experience {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private List<ExperienceEnum> typeExperienceEnumList;
-
-    @Column(nullable = false)
-    private Integer experienceValue;
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "user_experience", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "experience_id"))
-    private List<User> user = new ArrayList<>();
-    @JsonIgnore
+    @OneToMany(mappedBy = "experience")
+    private List<Review> reviewList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToMany
     @JoinTable(name = "user_booking", joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "experience_id"))
@@ -48,13 +44,12 @@ public class Experience {
     @Column(name = "record_status", nullable = false, length = 1)
     private RecordStatusEnum recordStatus;
 
-    public Experience(Long id, String name, String description, Double price, List<ExperienceEnum> typeExperienceEnumList, Integer experienceValue, List<User> user, List<Booking> booking, RecordStatusEnum recordStatus) {
+    public Experience(Long id, String name, String description, Double price, List<ExperienceEnum> typeExperienceEnumList, Integer experienceValue, User user, List<Booking> booking, RecordStatusEnum recordStatus) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.typeExperienceEnumList = typeExperienceEnumList;
-        this.experienceValue = experienceValue;
         this.user = user;
         this.booking = booking;
         this.recordStatus = recordStatus;
@@ -103,19 +98,11 @@ public class Experience {
         this.typeExperienceEnumList = typeExperienceEnumList;
     }
 
-    public Integer getExperienceValue() {
-        return experienceValue;
-    }
-
-    public void setExperienceValue(Integer experienceValue) {
-        this.experienceValue = experienceValue;
-    }
-
-    public List<User> getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(List<User> user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

@@ -29,21 +29,28 @@ public class ExperienceService {
      * @return Experience fatta
      * @author SS
      */
-    public ExperienceDTO addExperience(ExperienceDTO experienceDTO){
-        Experience experience = new Experience();
-        experience.setName(experience.getName());
-        experience.setDescription(experience.getDescription());
-        experience.setPrice(experience.getPrice());
+    public Optional<ExperienceDTO> addExperience(Long userId,ExperienceDTO experienceDTO){
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            Experience experience = new Experience();
+            experience.setName(experienceDTO.getName());
+            experience.setDescription(experienceDTO.getDescription());
+            experience.setPrice(experienceDTO.getPrice());
+            experience.setUser(userOptional.get());
+            experience.setRecordStatus(RecordStatusEnum.A);
 
-        Experience savedExperience = experienceRepository.save(experience);
+            Experience savedExperience = experienceRepository.save(experience);
 
-        ExperienceDTO experienceResponseDTO = new ExperienceDTO();
+            ExperienceDTO experienceResponseDTO = new ExperienceDTO();
 
-        experienceResponseDTO.setId(savedExperience.getId());
-        experienceResponseDTO.setName(savedExperience.getName());
-        experienceResponseDTO.setDescription(savedExperience.getDescription());
-        experienceResponseDTO.setPrice(savedExperience.getPrice());
-        return experienceResponseDTO;
+            experienceResponseDTO.setId(savedExperience.getId());
+            experienceResponseDTO.setName(savedExperience.getName());
+            experienceResponseDTO.setDescription(savedExperience.getDescription());
+            experienceResponseDTO.setPrice(savedExperience.getPrice());
+            return Optional.of(experienceResponseDTO);
+        }else {
+            return Optional.empty();
+        }
     }
 
 

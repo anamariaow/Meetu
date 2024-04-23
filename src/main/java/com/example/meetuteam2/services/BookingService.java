@@ -42,6 +42,7 @@ public class BookingService {
             booking.setDescription(bookingDTO.getDescription());
             booking.setUser(userOptional.get());
             booking.setExperience(experienceOptional.get());
+            booking.setRecordStatus(RecordStatusEnum.A);
 
             Booking savedBooking = bookingRepository.save(booking);
 

@@ -201,7 +201,7 @@ public class UserService {
     public Optional<String> addProfilePicture(Long id, MultipartFile picture) throws IOException {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            userOptional.get().setProfilePicture(fileStorageService.upload(picture));
+            userOptional.get().setProfilePicture(fileStorageService.uploadFirebase(picture));
             userRepository.save(userOptional.get());
             return Optional.of("profile picture succesfully added!");
         } else {
