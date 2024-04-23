@@ -35,7 +35,7 @@ public class ExperienceController {
         }
     }
 
-    @PutMapping("/updateexperience")
+    @PutMapping("/updateexperience/{id}")
     public ResponseEntity<ExperienceDTO> modifyBooking(@PathVariable Long id, @RequestBody ExperienceDTO experience) {
         Optional<ExperienceDTO> experienceOptional = experienceService.updateExperience(experience,id);
         if (experienceOptional.isPresent()) {
@@ -45,8 +45,8 @@ public class ExperienceController {
         }
     }
 
-    @PutMapping("/deleteexperience")
-    public ResponseEntity<ExperienceDTO> deleteExperience(Long id) {
+    @PutMapping("/deleteexperience/{id}")
+    public ResponseEntity<ExperienceDTO> deleteExperience(@PathVariable Long id) {
         Optional<ExperienceDTO> experienceOptional = experienceService.deleteExperience(id);
         if (experienceOptional.isPresent()) {
             return ResponseEntity.ok(experienceOptional.get());
