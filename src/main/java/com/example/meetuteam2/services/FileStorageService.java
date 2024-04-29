@@ -25,7 +25,7 @@ import java.util.UUID;
 public class FileStorageService {
     @Value("${fileDirectory}")
     private String directory;
-    @Value("${fileDirectory}")
+    @Value("${fireBaseKey}")
     private String fireBaseDirectory;
 
 
